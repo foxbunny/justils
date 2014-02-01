@@ -59,35 +59,35 @@ describe 'utils.byClass', !-> ``it``
         <ul>
           <li class="list-item"></li>
           <li class="list-item"></li>
+          <li class="list-item"></li>
+          <li class="list-item"></li>
         </ul>
       </div>
     """
 
   .. 'should select elements by class', !->
-    elems = utils.by-class document, \list-item
-    expect elems.length .to-equal 6
+    elems = utils.by-class \list-item, document
+    expect elems.length .to-equal 8
     for el in elems
       expect el .to-exist!
 
-  .. 'first argument should limit scope', !->
+  .. 'last argument should limit scope', !->
     root = utils.by-id \first
-    elems = utils.by-class root, \list-item
+    elems = utils.by-class \list-item, root
     expect elems.length .to-equal 2
     expect elems.0 .to-have-id \1
     expect elems.1 .to-have-id \2
     root = utils.by-id \second
-    elems = utils.by-class root, \list-item
+    elems = utils.by-class \list-item, root
     expect elems.length .to-equal 2
     expect elems.0 .to-have-id \3
     expect elems.1 .to-have-id \4
 
   .. 'should be curried', !->
+    list-items = utils.by-class \list-item
     root = utils.by-id \mixed
-    partial = utils.by-class root
-    elems = partial \list-item
+    elems = list-items root
+    expect elems.length .to-equal 4
+    root = utils.by-id \first
+    elems = list-items root
     expect elems.length .to-equal 2
-    elems = partial \foo
-    expect elems.length .to-equal 1
-    elems = partial \bar
-    expect elems.length .to-equal 1
-

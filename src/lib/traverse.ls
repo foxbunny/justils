@@ -16,5 +16,5 @@ define ->
     fn
   )!
 
-  by-class: by-class = (scope, cls) -->
-    scope.get-elements-by-class-name? cls or scope.query-selector-all? ".#{cls}"
+  by-class: by-class = (cls, el) -->
+    el.get-elements-by-class-name? cls or el.query-selector-all? ".#{cls}"
