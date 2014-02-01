@@ -1,0 +1,8 @@
+src_files:
+- vendor/*.js
+- lib/**/*.js
+- tests/**/*.js
+watch_files:
+- lib/**/*.js
+- tests/**/*.js
+

@@ -1,0 +1,28 @@
+/*jslint node: true */
+'use strict';
+
+var STDOUT = {stdio: 'inherit'};
+
+module.exports = {
+  clean: {
+    summary: 'remove the built files',
+    run: [
+      'v.rm lib/*.js',
+      'v.rm tests/*.js'
+    ]
+  },
+  compile: {
+    summary: 'compile LiveScript and Compass sources',
+    run: [
+      'n.lsc -cbo lib src/lib',
+      'n.lsc -cbo tests src/tests'
+    ]
+  },
+  dev: {
+    summary: 'start compilers and development server',
+    run: function (d, v) {
+      v.shell('n.lsc -cbwo lib src/lib', STDOUT);
+      v.shell('n.lsc -cbwo tests src/tests', STDOUT);
+    }
+  }
+};
