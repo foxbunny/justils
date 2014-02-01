@@ -39,12 +39,12 @@ describe('utils.byClass', function(){
   var x$;
   x$ = it;
   beforeEach(function(){
-    return fixtures.set("<ul class=\"list\" id=\"first\">\n  <li class=\"list-item\" id=\"1\"></li>\n  <li class=\"list-item\" id=\"2\"></li>\n</ul>\n<ul class=\"list\" id=\"second\">\n  <li class=\"list-item\" id=\"3\"></li>\n  <li class=\"list-item\" id=\"4\"></li>\n</ul>");
+    return fixtures.set("<ul class=\"list\" id=\"first\">\n  <li class=\"list-item\" id=\"1\"></li>\n  <li class=\"list-item\" id=\"2\"></li>\n</ul>\n<ul class=\"list\" id=\"second\">\n  <li class=\"list-item\" id=\"3\"></li>\n  <li class=\"list-item\" id=\"4\"></li>\n</ul>\n<div id=\"mixed\">\n  <p class=\"foo\"></p>\n  <p class=\"bar\"></p>\n  <ul>\n    <li class=\"list-item\"></li>\n    <li class=\"list-item\"></li>\n  </ul>\n</div>");
   });
   x$('should select elements by class', function(){
     var elems, i$, len$, el;
     elems = utils.byClass(document, 'list-item');
-    expect(elems.length).toEqual(4);
+    expect(elems.length).toEqual(6);
     for (i$ = 0, len$ = elems.length; i$ < len$; ++i$) {
       el = elems[i$];
       expect(el).toExist();
@@ -62,5 +62,16 @@ describe('utils.byClass', function(){
     expect(elems.length).toEqual(2);
     expect(elems[0]).toHaveId('3');
     expect(elems[1]).toHaveId('4');
+  });
+  x$('should be curried', function(){
+    var root, partial, elems;
+    root = utils.byId('mixed');
+    partial = utils.byClass(root);
+    elems = partial('list-item');
+    expect(elems.length).toEqual(2);
+    elems = partial('foo');
+    expect(elems.length).toEqual(1);
+    elems = partial('bar');
+    expect(elems.length).toEqual(1);
   });
 });

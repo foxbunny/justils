@@ -53,11 +53,19 @@ describe 'utils.byClass', !-> ``it``
         <li class="list-item" id="3"></li>
         <li class="list-item" id="4"></li>
       </ul>
+      <div id="mixed">
+        <p class="foo"></p>
+        <p class="bar"></p>
+        <ul>
+          <li class="list-item"></li>
+          <li class="list-item"></li>
+        </ul>
+      </div>
     """
 
   .. 'should select elements by class', !->
     elems = utils.by-class document, \list-item
-    expect elems.length .to-equal 4
+    expect elems.length .to-equal 6
     for el in elems
       expect el .to-exist!
 
@@ -72,3 +80,14 @@ describe 'utils.byClass', !-> ``it``
     expect elems.length .to-equal 2
     expect elems.0 .to-have-id \3
     expect elems.1 .to-have-id \4
+
+  .. 'should be curried', !->
+    root = utils.by-id \mixed
+    partial = utils.by-class root
+    elems = partial \list-item
+    expect elems.length .to-equal 2
+    elems = partial \foo
+    expect elems.length .to-equal 1
+    elems = partial \bar
+    expect elems.length .to-equal 1
+
