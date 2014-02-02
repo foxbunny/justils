@@ -326,3 +326,25 @@ describe('utils.matchAttr', function(){
     expect(matchFoo(el)).toBe(el);
   });
 });
+describe('utils.match-selector', function(){
+  var x$;
+  x$ = it;
+  beforeEach(function(){
+    setFixtures("<p id=\"foo\" class=\"foo\"></p>");
+  });
+  afterEach(function(){
+    utils.byId.clearCache();
+  });
+  x$('should return element if it matches selector', function(){
+    var el;
+    el = utils.byId('foo');
+    expect(utils.matchSelector('p.foo', el)).toBe(el);
+    expect(utils.matchSelector('div.foo', el)).toBe(void 8);
+  });
+  x$('should be curried', function(){
+    var el, isPFoo;
+    el = utils.byId('foo');
+    isPFoo = utils.matchSelector('p.foo');
+    expect(isPFoo(el)).toBe(el);
+  });
+});

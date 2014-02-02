@@ -314,3 +314,23 @@ describe 'utils.matchAttr', !-> ``it``
     match-foo = utils.match-attr \title, \foo
     expect match-foo el .to-be el
 
+
+describe 'utils.match-selector', !-> ``it``
+
+  before-each !->
+    set-fixtures """
+    <p id="foo" class="foo"></p>
+    """
+
+  after-each !->
+    utils.by-id.clear-cache!
+
+  .. 'should return element if it matches selector', !->
+    el = utils.by-id \foo
+    expect utils.match-selector \p.foo, el .to-be el
+    expect utils.match-selector \div.foo, el .to-be void
+
+  .. 'should be curried', !->
+    el = utils.by-id \foo
+    is-p-foo = utils.match-selector \p.foo
+    expect is-p-foo el .to-be el
