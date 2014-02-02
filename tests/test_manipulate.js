@@ -57,3 +57,26 @@ describe('utils.css', function(){
     expect(el.style.display).toEqual('none');
   });
 });
+describe('utils.addClass', function(){
+  var x$;
+  x$ = it;
+  beforeEach(function(){
+    setFixtures("<p id=\"addclass\"></p>");
+  });
+  afterEach(function(){
+    utils.byId.clearCache();
+  });
+  x$('should add a class name to element', function(){
+    var el;
+    el = utils.byId('addclass');
+    utils.addClass('foo', el);
+    expect(el).toHaveClass('foo');
+  });
+  x$('should be curried', function(){
+    var addBar, el;
+    addBar = utils.addClass('bar');
+    el = utils.byId('addclass');
+    addBar(el);
+    expect(el).toHaveClass('bar');
+  });
+});

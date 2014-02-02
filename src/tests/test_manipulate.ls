@@ -55,3 +55,24 @@ describe 'utils.css', !-> ``it``
     hide el
     expect el.style.display .to-equal \none
 
+
+describe 'utils.addClass', !-> ``it``
+
+  before-each !->
+    set-fixtures """
+    <p id="addclass"></p>
+    """
+
+  after-each !->
+    utils.by-id.clear-cache!
+
+  .. 'should add a class name to element', !->
+    el = utils.by-id \addclass
+    utils.add-class \foo, el
+    expect el .to-have-class \foo
+
+  .. 'should be curried', !->
+    add-bar = utils.add-class \bar
+    el = utils.by-id \addclass
+    add-bar el
+    expect el .to-have-class \bar

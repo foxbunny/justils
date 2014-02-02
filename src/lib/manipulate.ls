@@ -21,3 +21,12 @@ define (require) ->
   css: css = (property, value, el) !-->
     property = helpers.camelize property
     el.style[property] = value if el.style[property]?
+
+  add-class: add-class = (name, el) !-->
+    if el.class-list?
+      el.class-list.add name
+    else
+      if el.class-name.length
+        el.class-name += " #{name}"
+      else
+        el.class-name += name
