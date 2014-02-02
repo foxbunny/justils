@@ -176,3 +176,29 @@ describe('utils.data', function(){
     expect(getFoo(el)).toEqual('bar');
   });
 });
+describe('utils.setData', function(){
+  var x$;
+  x$ = it;
+  beforeEach(function(){
+    setFixtures("<p id=\"setdata\"></p>");
+  });
+  afterEach(function(){
+    utils.byId.clearCache();
+  });
+  x$('should set data attribute', function(){
+    var el;
+    el = utils.byId('setdata');
+    utils.setData('foo', el, 'bar');
+    expect(utils.data('foo', el)).toEqual('bar');
+  });
+  x$('should be curried', function(){
+    var el, setBar, setBazOnEl;
+    el = utils.byId('setdata');
+    setBar = utils.setData('bar');
+    setBar(el, 'baz');
+    expect(utils.data('bar', el)).toEqual('baz');
+    setBazOnEl = utils.setData('baz', el);
+    setBazOnEl('foobar');
+    expect(utils.data('baz', el)).toEqual('foobar');
+  });
+});

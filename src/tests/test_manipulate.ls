@@ -170,3 +170,27 @@ describe 'utils.data', !-> ``it``
     get-foo = utils.data \foo
     expect get-foo el .to-equal \bar
 
+
+describe 'utils.setData', !-> ``it``
+
+  before-each !->
+    set-fixtures """
+    <p id="setdata"></p>
+    """
+
+  after-each !->
+    utils.by-id.clear-cache!
+
+  .. 'should set data attribute', !->
+    el = utils.by-id \setdata
+    utils.set-data \foo, el, \bar
+    expect utils.data \foo, el .to-equal \bar
+
+  .. 'should be curried', !->
+    el = utils.by-id \setdata
+    set-bar = utils.set-data \bar
+    set-bar el, \baz
+    expect utils.data \bar, el .to-equal \baz
+    set-baz-on-el = utils.set-data \baz, el
+    set-baz-on-el \foobar
+    expect utils.data \baz, el .to-equal \foobar
