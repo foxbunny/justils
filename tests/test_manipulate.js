@@ -223,3 +223,29 @@ describe('utils.attr', function(){
     expect(title(el)).toEqual('Example');
   });
 });
+describe('utils.setAttribute', function(){
+  var x$;
+  x$ = it;
+  beforeEach(function(){
+    setFixtures("<a id=\"sethref\"></a>");
+  });
+  afterEach(function(){
+    utils.byId.clearCache();
+  });
+  x$('should set attribute on element', function(){
+    var el;
+    el = utils.byId('sethref');
+    utils.setAttr('href', el, 'http://example.com/');
+    expect(utils.attr('href', el)).toEqual('http://example.com/');
+  });
+  x$('should be curried', function(){
+    var el, setHref, setHrefOnEl;
+    el = utils.byId('sethref');
+    setHref = utils.setAttr('href');
+    setHref(el, 'http://test.com/');
+    expect(utils.attr('href', el)).toEqual('http://test.com/');
+    setHrefOnEl = utils.setAttr('href', el);
+    setHrefOnEl('http://www.test.com/');
+    expect(utils.attr('href', el)).toEqual('http://www.test.com/');
+  });
+});

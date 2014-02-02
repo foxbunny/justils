@@ -214,3 +214,28 @@ describe 'utils.attr', !-> ``it``
     el = utils.by-id \gethref
     title = utils.attr \title
     expect title el .to-equal \Example
+
+
+describe 'utils.setAttribute', !-> ``it``
+
+  before-each !->
+    set-fixtures """
+    <a id="sethref"></a>
+    """
+
+  after-each !->
+    utils.by-id.clear-cache!
+
+  .. 'should set attribute on element', !->
+    el = utils.by-id \sethref
+    utils.set-attr \href, el, 'http://example.com/'
+    expect utils.attr \href, el .to-equal 'http://example.com/'
+
+  .. 'should be curried', !->
+    el = utils.by-id \sethref
+    set-href = utils.set-attr \href
+    set-href el, 'http://test.com/'
+    expect utils.attr \href, el .to-equal 'http://test.com/'
+    set-href-on-el = utils.set-attr \href, el
+    set-href-on-el 'http://www.test.com/'
+    expect utils.attr \href, el .to-equal 'http://www.test.com/'

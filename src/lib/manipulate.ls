@@ -53,3 +53,6 @@ define (require) ->
 
   attr: attr = (name, el) -->
     el.get-attribute name
+
+  set-attr: set-attr = (name, el, value) !-->
+    el.set-attribute name, value
