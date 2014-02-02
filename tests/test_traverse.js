@@ -75,3 +75,34 @@ describe('utils.byClass', function(){
     expect(elems.length).toEqual(2);
   });
 });
+describe('utils.byTag', function(){
+  var x$;
+  x$ = it;
+  beforeEach(function(){
+    setFixtures("<p></p>\n<p></p>\n<p></p>\n<ul id=\"list\">\n  <li></li>\n  <li></li>\n</ul>\n<ul id=\"other-list\">\n  <li></li>\n  <li></li>\n  <li></li>\n  <li></li>\n</ul>\n<div id=\"top\">\n  <p></p>\n  <p></p>\n  <div id=\"middle\">\n    <p></p>\n    <p></p>\n    <div id=\"bottom\">\n      <p></p>\n      <p></p>\n    </div>\n  </div>\n</div>");
+  });
+  x$('should select elements by tag name', function(){
+    var elems, i$, len$, el;
+    elems = utils.byTag('P', document);
+    expect(elems.length).toEqual(9);
+    for (i$ = 0, len$ = elems.length; i$ < len$; ++i$) {
+      el = elems[i$];
+      expect(el).toExist();
+    }
+  });
+  x$('last argument should limit scope', function(){
+    var elems;
+    elems = utils.byTag('li', utils.byId('list'));
+    expect(elems.length).toEqual(2);
+  });
+  x$('should be curried', function(){
+    var getP, top, middle, bottom;
+    getP = utils.byTag('p');
+    top = getP(utils.byId('top'));
+    middle = getP(utils.byId('middle'));
+    bottom = getP(utils.byId('bottom'));
+    expect(top.length).toEqual(6);
+    expect(middle.length).toEqual(4);
+    expect(bottom.length).toEqual(2);
+  });
+});
