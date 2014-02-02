@@ -127,3 +127,55 @@ describe('utils.matchAll', function(){
     expect(utils.matchAll(matchers, null)).toBe(void 8);
   });
 });
+describe('utils.filter', function(){
+  var x$;
+  x$ = it;
+  beforeEach(function(){
+    setFixtures("<p class=\"foo\" title=\"bar\"></p>\n<p class=\"foo\" title=\"bar\"></p>\n<p class=\"foo\" title=\"bar\"></p>\n<p class=\"bar\" title=\"foo\"></p>");
+  });
+  afterEach(function(){
+    utils.byId.clearCache();
+  });
+  x$('should return a filtered list of elements', function(){
+    var elements, matchFoo, matchBar, matchers, filtered;
+    elements = utils.byTag('p', document);
+    matchFoo = utils.matchClass('foo');
+    matchBar = utils.matchAttr('title', 'bar');
+    matchers = [matchFoo, matchBar];
+    filtered = utils.filter(matchers, elements);
+    expect(filtered.length).toEqual(3);
+  });
+  x$('should return empty array if no element matches', function(){
+    var elements, matchBar, matchBaz, matchers, filtered;
+    elements = utils.byTag('p', document);
+    matchBar = utils.matchClass('bar');
+    matchBaz = utils.matchAttr('title', 'baz');
+    matchers = [matchBar, matchBaz];
+    filtered = utils.filter(matchers, elements);
+    expect(filtered.length).toEqual(0);
+  });
+  x$('should return nothing if matchers are missing', function(){
+    var elements;
+    elements = utils.byTag('p', document);
+    expect(utils.filter([], elements)).toEqual(void 8);
+    expect(utils.filter(null, elements)).toEqual(void 8);
+  });
+  x$('should return nothing if elements are missing', function(){
+    var matchFoo, matchBar, matchers;
+    matchFoo = utils.matchClass('foo');
+    matchBar = utils.matchAttr('title', 'bar');
+    matchers = [matchFoo, matchBar];
+    expect(utils.filter(matchers, [])).toEqual(void 8);
+    expect(utils.filter(matchers, null)).toEqual(void 8);
+  });
+  x$('should be curried', function(){
+    var elements, matchFoo, matchBar, matchers, filterFooBar, filtered;
+    elements = utils.byTag('p', document);
+    matchFoo = utils.matchClass('foo');
+    matchBar = utils.matchAttr('title', 'bar');
+    matchers = [matchFoo, matchBar];
+    filterFooBar = utils.filter(matchers);
+    filtered = filterFooBar(elements);
+    expect(filtered.length).toEqual(3);
+  });
+});

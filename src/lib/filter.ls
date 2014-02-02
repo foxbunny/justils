@@ -40,3 +40,7 @@ define (require) ->
     return el if not first?
     match-all rest, first el
 
+  filter: filter = (matchers, elements) -->
+    return void if not matchers?.length or not elements?.length
+    for el in elements
+      el if match-all matchers, el

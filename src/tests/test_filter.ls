@@ -118,3 +118,54 @@ describe 'utils.matchAll', !-> ``it``
     match-baz = utils.match-attr \title, \baz
     matchers = [match-bar, match-baz]
     expect utils.match-all matchers, null .to-be void
+
+
+describe 'utils.filter', !-> ``it``
+
+  before-each !->
+    set-fixtures """
+    <p class="foo" title="bar"></p>
+    <p class="foo" title="bar"></p>
+    <p class="foo" title="bar"></p>
+    <p class="bar" title="foo"></p>
+    """
+
+  after-each !->
+    utils.by-id.clear-cache!
+
+  .. 'should return a filtered list of elements', !->
+    elements = utils.by-tag \p, document
+    match-foo = utils.match-class \foo
+    match-bar = utils.match-attr \title, \bar
+    matchers = [match-foo, match-bar]
+    filtered = utils.filter matchers, elements
+    expect filtered.length .to-equal 3
+
+  .. 'should return empty array if no element matches', !->
+    elements = utils.by-tag \p, document
+    match-bar = utils.match-class \bar
+    match-baz = utils.match-attr \title, \baz
+    matchers = [match-bar, match-baz]
+    filtered = utils.filter matchers, elements
+    expect filtered.length .to-equal 0
+
+  .. 'should return nothing if matchers are missing', !->
+    elements = utils.by-tag \p, document
+    expect utils.filter [], elements .to-equal void
+    expect utils.filter null, elements .to-equal void
+
+  .. 'should return nothing if elements are missing' !->
+    match-foo = utils.match-class \foo
+    match-bar = utils.match-attr \title, \bar
+    matchers = [match-foo, match-bar]
+    expect utils.filter matchers, [] .to-equal void
+    expect utils.filter matchers, null .to-equal void
+
+  .. 'should be curried', !->
+    elements = utils.by-tag \p, document
+    match-foo = utils.match-class \foo
+    match-bar = utils.match-attr \title, \bar
+    matchers = [match-foo, match-bar]
+    filter-foo-bar = utils.filter matchers
+    filtered = filter-foo-bar elements
+    expect filtered.length .to-equal 3
