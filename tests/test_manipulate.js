@@ -16,3 +16,44 @@ describe('utils.remove', function(){
     expect(el.length).toEqual(0);
   });
 });
+describe('utils.css', function(){
+  var x$;
+  x$ = it;
+  beforeEach(function(){
+    setFixtures("<div id=\"style\"></div>");
+  });
+  afterEach(function(){
+    utils.byId.clearCache();
+  });
+  x$('should define styles on element', function(){
+    var el;
+    el = utils.byId('style');
+    utils.css('margin', '2px', el);
+    expect(el.style.margin).toEqual('2px');
+  });
+  x$('should normalize style names', function(){
+    var el;
+    el = utils.byId('style');
+    utils.css('margin-right', '4px', el);
+    expect(el.style.marginRight).toEqual('4px');
+  });
+  x$('should not set bogus styles', function(){
+    var el;
+    el = utils.byId('style');
+    utils.css('foo', 'bar', el);
+    expect(el.style.foo).not.toBeDefined();
+  });
+  x$('should be curried', function(){
+    var el, padding, hide;
+    el = utils.byId('style');
+    padding = utils.css('padding');
+    hide = utils.css('display', 'none');
+    expect(el.style.padding).toEqual('');
+    expect(el.style.display).toEqual('');
+    padding('12px', el);
+    expect(el.style.padding).toEqual('12px');
+    expect(el.style.display).toEqual('');
+    hide(el);
+    expect(el.style.display).toEqual('none');
+  });
+});
