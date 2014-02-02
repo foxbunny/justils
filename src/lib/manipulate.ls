@@ -2,9 +2,7 @@ define = ((root) ->
   if typeof root.define is \function and root.define.amd
     root.define
   else
-    require = (dep) -> root.utils
-    (factory) ->
-      (root.utils ?= {}) <<< factory require
+    (factory) -> (root.utils ?= {}) <<< factory -> root.utils
 ) this
 
 define (require) ->
@@ -60,5 +58,3 @@ define (require) ->
   has-attr: has-attr = (name, el) -->
     el.has-attribute name
 
-  match-attr: match-attr = (name, val, el) -->
-    (attr name, el) is val

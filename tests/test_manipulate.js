@@ -274,33 +274,3 @@ describe('utils.hasAttr', function(){
     expect(hasHref(el2)).toBe(true);
   });
 });
-describe('utils.matchAttr', function(){
-  var x$;
-  x$ = it;
-  beforeEach(function(){
-    setFixtures("<p id=\"hastitle\" title=\"foo\"></p>");
-  });
-  afterEach(function(){
-    utils.byId.clearCache();
-  });
-  x$('should return true if element has matching attribute', function(){
-    var el;
-    el = utils.byId('hastitle');
-    expect(utils.matchAttr('title', 'foo', el)).toBe(true);
-    expect(utils.matchAttr('title', 'bar', el)).toBe(false);
-  });
-  x$('should return false for non-existent attributes', function(){
-    var el;
-    el = utils.byId('hastitle');
-    expect(utils.matchAttr('href', 'http://example.com/', el)).toBe(false);
-  });
-  x$('should be curried', function(){
-    var el, matchTitle, matchFoo;
-    el = utils.byId('hastitle');
-    matchTitle = utils.matchAttr('title');
-    expect(matchTitle('foo', el)).toBe(true);
-    expect(matchTitle('bar', el)).toBe(false);
-    matchFoo = utils.matchAttr('title', 'foo');
-    expect(matchFoo(el)).toBe(true);
-  });
-});

@@ -2,8 +2,7 @@ define = ((root) ->
   if typeof root.define == \function and root.define.amd
     root.define
   else
-    (factory) ->
-      (root.utils ?= {}) <<< factory!
+    (factory) -> (root.utils ?= {}) <<< factory!
 ) this
 
 define ->
