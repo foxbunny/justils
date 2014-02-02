@@ -194,3 +194,23 @@ describe 'utils.setData', !-> ``it``
     set-baz-on-el = utils.set-data \baz, el
     set-baz-on-el \foobar
     expect utils.data \baz, el .to-equal \foobar
+
+
+describe 'utils.attr', !-> ``it``
+
+  before-each !->
+    set-fixtures """
+    <a id="gethref" href="http://example.com/" title="Example"></a>
+    """
+
+  after-each !->
+    utils.by-id.clear-cache!
+
+  .. 'should return html attribute', !->
+    el = utils.by-id \gethref
+    expect utils.attr \href, el .to-equal 'http://example.com/'
+
+  .. 'should be curried', !->
+    el = utils.by-id \gethref
+    title = utils.attr \title
+    expect title el .to-equal \Example

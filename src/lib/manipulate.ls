@@ -50,3 +50,6 @@ define (require) ->
       el.dataset[name] = value
     else
       el.set-attribute "data-#{name}", value
+
+  attr: attr = (name, el) -->
+    el.get-attribute name

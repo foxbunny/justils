@@ -202,3 +202,24 @@ describe('utils.setData', function(){
     expect(utils.data('baz', el)).toEqual('foobar');
   });
 });
+describe('utils.attr', function(){
+  var x$;
+  x$ = it;
+  beforeEach(function(){
+    setFixtures("<a id=\"gethref\" href=\"http://example.com/\" title=\"Example\"></a>");
+  });
+  afterEach(function(){
+    utils.byId.clearCache();
+  });
+  x$('should return html attribute', function(){
+    var el;
+    el = utils.byId('gethref');
+    expect(utils.attr('href', el)).toEqual('http://example.com/');
+  });
+  x$('should be curried', function(){
+    var el, title;
+    el = utils.byId('gethref');
+    title = utils.attr('title');
+    expect(title(el)).toEqual('Example');
+  });
+});
