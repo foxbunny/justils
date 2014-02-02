@@ -194,3 +194,102 @@ describe 'utils.setData', !-> ``it``
     set-baz-on-el = utils.set-data \baz, el
     set-baz-on-el \foobar
     expect utils.data \baz, el .to-equal \foobar
+
+
+describe 'utils.attr', !-> ``it``
+
+  before-each !->
+    set-fixtures """
+    <a id="gethref" href="http://example.com/" title="Example"></a>
+    """
+
+  after-each !->
+    utils.by-id.clear-cache!
+
+  .. 'should return html attribute', !->
+    el = utils.by-id \gethref
+    expect utils.attr \href, el .to-equal 'http://example.com/'
+
+  .. 'should be curried', !->
+    el = utils.by-id \gethref
+    title = utils.attr \title
+    expect title el .to-equal \Example
+
+
+describe 'utils.setAttribute', !-> ``it``
+
+  before-each !->
+    set-fixtures """
+    <a id="sethref"></a>
+    """
+
+  after-each !->
+    utils.by-id.clear-cache!
+
+  .. 'should set attribute on element', !->
+    el = utils.by-id \sethref
+    utils.set-attr \href, el, 'http://example.com/'
+    expect utils.attr \href, el .to-equal 'http://example.com/'
+
+  .. 'should be curried', !->
+    el = utils.by-id \sethref
+    set-href = utils.set-attr \href
+    set-href el, 'http://test.com/'
+    expect utils.attr \href, el .to-equal 'http://test.com/'
+    set-href-on-el = utils.set-attr \href, el
+    set-href-on-el 'http://www.test.com/'
+    expect utils.attr \href, el .to-equal 'http://www.test.com/'
+
+
+describe 'utils.hasAttr', !-> ``it``
+
+  before-each !->
+    set-fixtures """
+    <a id="nohref"></a>
+    <a id="hashref" href="http://test.com/"></a>
+    """
+
+  after-each !->
+    utils.by-id.clear-cache!
+
+  .. 'should return true if element has attribute', !->
+    el1 = utils.by-id \nohref
+    el2 = utils.by-id \hashref
+    expect utils.has-attr \href, el1 .to-be false
+    expect utils.has-attr \href, el2 .to-be true
+
+  .. 'should be curried', !->
+    el1 = utils.by-id \nohref
+    el2 = utils.by-id \hashref
+    has-href = utils.has-attr \href
+    expect has-href el1 .to-be false
+    expect has-href el2 .to-be true
+
+
+describe 'utils.matchAttr', !-> ``it``
+
+  before-each !->
+    set-fixtures """
+    <p id="hastitle" title="foo"></p>
+    """
+
+  after-each !->
+    utils.by-id.clear-cache!
+
+  .. 'should return true if element has matching attribute', !->
+    el = utils.by-id \hastitle
+    expect utils.match-attr \title, \foo, el .to-be true
+    expect utils.match-attr \title, \bar, el .to-be false
+
+  .. 'should return false for non-existent attributes', !->
+    el = utils.by-id \hastitle
+    expect utils.match-attr \href, 'http://example.com/', el .to-be false
+
+  .. 'should be curried', !->
+    el = utils.by-id \hastitle
+    match-title = utils.match-attr \title
+    expect match-title \foo, el .to-be true
+    expect match-title \bar, el .to-be false
+    match-foo = utils.match-attr \title, \foo
+    expect match-foo el .to-be true
+

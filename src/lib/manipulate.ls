@@ -50,3 +50,15 @@ define (require) ->
       el.dataset[name] = value
     else
       el.set-attribute "data-#{name}", value
+
+  attr: attr = (name, el) -->
+    el.get-attribute name
+
+  set-attr: set-attr = (name, el, value) !-->
+    el.set-attribute name, value
+
+  has-attr: has-attr = (name, el) -->
+    el.has-attribute name
+
+  match-attr: match-attr = (name, val, el) -->
+    (attr name, el) is val

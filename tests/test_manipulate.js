@@ -202,3 +202,105 @@ describe('utils.setData', function(){
     expect(utils.data('baz', el)).toEqual('foobar');
   });
 });
+describe('utils.attr', function(){
+  var x$;
+  x$ = it;
+  beforeEach(function(){
+    setFixtures("<a id=\"gethref\" href=\"http://example.com/\" title=\"Example\"></a>");
+  });
+  afterEach(function(){
+    utils.byId.clearCache();
+  });
+  x$('should return html attribute', function(){
+    var el;
+    el = utils.byId('gethref');
+    expect(utils.attr('href', el)).toEqual('http://example.com/');
+  });
+  x$('should be curried', function(){
+    var el, title;
+    el = utils.byId('gethref');
+    title = utils.attr('title');
+    expect(title(el)).toEqual('Example');
+  });
+});
+describe('utils.setAttribute', function(){
+  var x$;
+  x$ = it;
+  beforeEach(function(){
+    setFixtures("<a id=\"sethref\"></a>");
+  });
+  afterEach(function(){
+    utils.byId.clearCache();
+  });
+  x$('should set attribute on element', function(){
+    var el;
+    el = utils.byId('sethref');
+    utils.setAttr('href', el, 'http://example.com/');
+    expect(utils.attr('href', el)).toEqual('http://example.com/');
+  });
+  x$('should be curried', function(){
+    var el, setHref, setHrefOnEl;
+    el = utils.byId('sethref');
+    setHref = utils.setAttr('href');
+    setHref(el, 'http://test.com/');
+    expect(utils.attr('href', el)).toEqual('http://test.com/');
+    setHrefOnEl = utils.setAttr('href', el);
+    setHrefOnEl('http://www.test.com/');
+    expect(utils.attr('href', el)).toEqual('http://www.test.com/');
+  });
+});
+describe('utils.hasAttr', function(){
+  var x$;
+  x$ = it;
+  beforeEach(function(){
+    setFixtures("<a id=\"nohref\"></a>\n<a id=\"hashref\" href=\"http://test.com/\"></a>");
+  });
+  afterEach(function(){
+    utils.byId.clearCache();
+  });
+  x$('should return true if element has attribute', function(){
+    var el1, el2;
+    el1 = utils.byId('nohref');
+    el2 = utils.byId('hashref');
+    expect(utils.hasAttr('href', el1)).toBe(false);
+    expect(utils.hasAttr('href', el2)).toBe(true);
+  });
+  x$('should be curried', function(){
+    var el1, el2, hasHref;
+    el1 = utils.byId('nohref');
+    el2 = utils.byId('hashref');
+    hasHref = utils.hasAttr('href');
+    expect(hasHref(el1)).toBe(false);
+    expect(hasHref(el2)).toBe(true);
+  });
+});
+describe('utils.matchAttr', function(){
+  var x$;
+  x$ = it;
+  beforeEach(function(){
+    setFixtures("<p id=\"hastitle\" title=\"foo\"></p>");
+  });
+  afterEach(function(){
+    utils.byId.clearCache();
+  });
+  x$('should return true if element has matching attribute', function(){
+    var el;
+    el = utils.byId('hastitle');
+    expect(utils.matchAttr('title', 'foo', el)).toBe(true);
+    expect(utils.matchAttr('title', 'bar', el)).toBe(false);
+  });
+  x$('should return false for non-existent attributes', function(){
+    var el;
+    el = utils.byId('hastitle');
+    expect(utils.matchAttr('href', 'http://example.com/', el)).toBe(false);
+  });
+  x$('should be curried', function(){
+    var el, matchTitle, matchFoo;
+    el = utils.byId('hastitle');
+    matchTitle = utils.matchAttr('title');
+    expect(matchTitle('foo', el)).toBe(true);
+    expect(matchTitle('bar', el)).toBe(false);
+    matchFoo = utils.matchAttr('title', 'foo');
+    expect(matchFoo(el)).toBe(true);
+  });
+});
