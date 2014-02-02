@@ -45,7 +45,7 @@ define (require) ->
   data: data = (name, el) -->
     el.dataset?[name] or el.get-attribute "data-#{name}"
 
-  set-data: set-data = (name, el, value) -->
+  set-data: set-data = (name, el, value) !-->
     if \dataset of el
       el.dataset[name] = value
     else
