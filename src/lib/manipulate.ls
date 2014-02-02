@@ -2,9 +2,7 @@ define = ((root) ->
   if typeof root.define is \function and root.define.amd
     root.define
   else
-    require = (dep) -> root.utils
-    (factory) ->
-      (root.utils ?= {}) <<< factory require
+    (factory) -> (root.utils ?= {}) <<< factory -> root.utils
 ) this
 
 define (require) ->
@@ -42,9 +40,6 @@ define (require) ->
   has-class: has-class = (name, el) -->
     (" #{el.class-name} ".index-of " #{name} ") > -1
 
-  match-class: match-class = (name, el) -->
-    el if has-class name, el
-
   data: data = (name, el) -->
     el.dataset?[name] or el.get-attribute "data-#{name}"
 
@@ -62,24 +57,4 @@ define (require) ->
 
   has-attr: has-attr = (name, el) -->
     el.has-attribute name
-
-  match-attr: match-attr = (name, val, el) -->
-    el if (attr name, el) is val
-
-  match-selector: match-selector = (selector, el) -->
-    # Code adapted from http://youmightnotneedjquery.com/#matches_selector
-
-    _matches = el.matches or
-      el.matches-selector or
-      el.ms-matches-selector or
-      el.moz-matches-selector or
-      el.webkit-matches-selector or
-      el.o-matches-selector
-
-    if _matches?
-      el if _matches.call el, selector
-    else
-      for node in el.parent-node.query-selector-all selector
-        return el if node == el
-      void
 
