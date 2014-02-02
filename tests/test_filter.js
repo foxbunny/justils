@@ -82,3 +82,48 @@ describe('utils.match-selector', function(){
     expect(utils.matchSelector('bar', null)).toBe(void 8);
   });
 });
+describe('utils.matchAll', function(){
+  var x$;
+  x$ = it;
+  beforeEach(function(){
+    setFixtures("<p id=\"foo\" class=\"bar\" title=\"baz\"></p>\n<p id=\"notfoo\" class=\"baz\" title=\"bar\"></p>");
+  });
+  afterEach(function(){
+    utils.byId.clearCache();
+  });
+  x$('should return the element if it matches all matchers', function(){
+    var el, matchBar, matchBaz, matchSelector, matchers;
+    el = utils.byId('foo');
+    matchBar = utils.matchClass('bar');
+    matchBaz = utils.matchAttr('title', 'baz');
+    matchSelector = utils.matchSelector('p#foo');
+    matchers = [matchBar, matchBaz, matchSelector];
+    expect(utils.matchAll(matchers, el)).toBe(el);
+  });
+  x$('should return nothing if at least one matcher fails', function(){
+    var el, matchBar, matchBaz, matchSelector, matchers;
+    el = utils.byId('foo');
+    matchBar = utils.matchClass('bar');
+    matchBaz = utils.matchAttr('title', 'baz');
+    matchSelector = utils.matchSelector('div#foo');
+    matchers = [matchBar, matchBaz, matchSelector];
+    expect(utils.matchAll(matchers, el)).toBe(void 8);
+  });
+  x$('should be curried', function(){
+    var el1, el2, matchBar, matchBaz, matchBarBaz;
+    el1 = utils.byId('foo');
+    el2 = utils.byId('notfoo');
+    matchBar = utils.matchClass('bar');
+    matchBaz = utils.matchAttr('title', 'baz');
+    matchBarBaz = utils.matchAll([matchBar, matchBaz]);
+    expect(matchBarBaz(el1)).toBe(el1);
+    expect(matchBarBaz(el2)).toBe(void 8);
+  });
+  x$('should return nothing if nothing is passed', function(){
+    var matchBar, matchBaz, matchers;
+    matchBar = utils.matchClass('bar');
+    matchBaz = utils.matchAttr('title', 'baz');
+    matchers = [matchBar, matchBaz];
+    expect(utils.matchAll(matchers, null)).toBe(void 8);
+  });
+});

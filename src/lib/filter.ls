@@ -35,3 +35,8 @@ define (require) ->
         return el if node == el
       void
 
+  match-all: match-all = ([first, ...rest], el) -->
+    return void if not el?
+    return el if not first?
+    match-all rest, first el
+
