@@ -10,8 +10,11 @@ define ->
 
   by-id: by-id = (->
     cache = {}
-    fn = (id) ->
-      cache[id] or cache[id] = document.get-element-by-id id
+    fn = (id, do-cache = true) ->
+      if do-cache
+        cache[id] or cache[id] = document.get-element-by-id id
+      else
+        document.get-element-by-id id
     fn.clear-cache = -> cache := {}
     fn
   )!

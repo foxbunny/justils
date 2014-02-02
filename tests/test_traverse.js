@@ -3,7 +3,7 @@ describe('utils.byId', function(){
   var x$;
   x$ = it;
   beforeEach(function(){
-    setFixtures("<p id=\"foo\">inner</p>\n<p id=\"bar\">bar inner</p>\n<p id=\"baz\">baz inner</p>\n<p id=\"nocache\">isn't cached</p>\n<p>not matched</p>");
+    setFixtures("<p id=\"foo\">inner</p>\n<p id=\"bar\">bar inner</p>\n<p id=\"baz\">baz inner</p>\n<p id=\"nocache\">isn't cached</p>\n<p>not matched</p>\n<p id=\"disabled-caching\"></p>");
   });
   x$('should retrieve element by id', function(){
     var el;
@@ -31,6 +31,13 @@ describe('utils.byId', function(){
     utils.byId('nocache');
     expect(document.getElementById.callCount).toBe(2);
     expect(document.getElementById.argsForCall).toEqual([['nocache'], ['nocache']]);
+  });
+  x$('last argument disables caching', function(){
+    spyOn(document, 'getElementById').andCallThrough();
+    utils.byId('disabled-caching', false);
+    utils.byId('disabled-caching', false);
+    expect(document.getElementById.callCount).toBe(2);
+    expect(document.getElementById.argsForCall).toEqual([['disabled-caching'], ['disabled-caching']]);
   });
 });
 describe('utils.byClass', function(){

@@ -7,6 +7,7 @@ describe 'utils.byId', !-> ``it``
       <p id="baz">baz inner</p>
       <p id="nocache">isn't cached</p>
       <p>not matched</p>
+      <p id="disabled-caching"></p>
     """
 
   .. 'should retrieve element by id', !->
@@ -36,6 +37,16 @@ describe 'utils.byId', !-> ``it``
     expect document.get-element-by-id.args-for-call .to-equal [
       [\nocache]
       [\nocache]
+    ]
+
+  .. 'last argument disables caching', !->
+    spy-on document, 'getElementById' .and-call-through!
+    utils.by-id \disabled-caching, false
+    utils.by-id \disabled-caching, false
+    expect document.get-element-by-id.call-count .to-be 2
+    expect document.get-element-by-id.args-for-call .to-equal [
+      [\disabled-caching]
+      [\disabled-caching]
     ]
 
 describe 'utils.byClass', !-> ``it``
