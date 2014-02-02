@@ -264,3 +264,32 @@ describe 'utils.hasAttr', !-> ``it``
     has-href = utils.has-attr \href
     expect has-href el1 .to-be false
     expect has-href el2 .to-be true
+
+
+describe 'utils.matchAttr', !-> ``it``
+
+  before-each !->
+    set-fixtures """
+    <p id="hastitle" title="foo"></p>
+    """
+
+  after-each !->
+    utils.by-id.clear-cache!
+
+  .. 'should return true if element has matching attribute', !->
+    el = utils.by-id \hastitle
+    expect utils.match-attr \title, \foo, el .to-be true
+    expect utils.match-attr \title, \bar, el .to-be false
+
+  .. 'should return false for non-existent attributes', !->
+    el = utils.by-id \hastitle
+    expect utils.match-attr \href, 'http://example.com/', el .to-be false
+
+  .. 'should be curried', !->
+    el = utils.by-id \hastitle
+    match-title = utils.match-attr \title
+    expect match-title \foo, el .to-be true
+    expect match-title \bar, el .to-be false
+    match-foo = utils.match-attr \title, \foo
+    expect match-foo el .to-be true
+

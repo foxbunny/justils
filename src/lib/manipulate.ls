@@ -59,3 +59,6 @@ define (require) ->
 
   has-attr: has-attr = (name, el) -->
     el.has-attribute name
+
+  match-attr: match-attr = (name, val, el) -->
+    (attr name, el) is val
