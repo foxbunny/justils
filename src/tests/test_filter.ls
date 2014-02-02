@@ -18,6 +18,9 @@ describe 'utils.matchClass', !-> ``it``
     has-foo = utils.match-class \foo
     expect has-foo el .to-be el
 
+  .. 'should not return anything if nothing is passed', !->
+    expect utils.match-class \foo, null .to-be void
+
 
 describe 'utils.matchAttr', !-> ``it``
 
@@ -46,6 +49,9 @@ describe 'utils.matchAttr', !-> ``it``
     match-foo = utils.match-attr \title, \foo
     expect match-foo el .to-be el
 
+  .. 'should not return anything if nothing is passed', !->
+    expect utils.match-attr \foo, \bar, null .to-be void
+
 
 describe 'utils.match-selector', !-> ``it``
 
@@ -66,3 +72,6 @@ describe 'utils.match-selector', !-> ``it``
     el = utils.by-id \foo
     is-p-foo = utils.match-selector \p.foo
     expect is-p-foo el .to-be el
+
+  .. 'should not return anything if nothing is passed', !->
+    expect utils.match-selector \bar, null .to-be void

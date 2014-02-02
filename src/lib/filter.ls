@@ -9,12 +9,16 @@ define (require) ->
   manipulate = require './manipulate'
 
   match-class: match-class = (name, el) -->
+    return void if not el?
     el if manipulate.has-class name, el
 
   match-attr: match-attr = (name, val, el) -->
+    return void if not el?
     el if (manipulate.attr name, el) is val
 
   match-selector: match-selector = (selector, el) -->
+    return void if not el?
+
     # Code adapted from http://youmightnotneedjquery.com/#matches_selector
 
     _matches = el.matches or

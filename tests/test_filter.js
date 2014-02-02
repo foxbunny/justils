@@ -20,6 +20,9 @@ describe('utils.matchClass', function(){
     hasFoo = utils.matchClass('foo');
     expect(hasFoo(el)).toBe(el);
   });
+  x$('should not return anything if nothing is passed', function(){
+    expect(utils.matchClass('foo', null)).toBe(void 8);
+  });
 });
 describe('utils.matchAttr', function(){
   var x$;
@@ -50,6 +53,9 @@ describe('utils.matchAttr', function(){
     matchFoo = utils.matchAttr('title', 'foo');
     expect(matchFoo(el)).toBe(el);
   });
+  x$('should not return anything if nothing is passed', function(){
+    expect(utils.matchAttr('foo', 'bar', null)).toBe(void 8);
+  });
 });
 describe('utils.match-selector', function(){
   var x$;
@@ -71,5 +77,8 @@ describe('utils.match-selector', function(){
     el = utils.byId('foo');
     isPFoo = utils.matchSelector('p.foo');
     expect(isPFoo(el)).toBe(el);
+  });
+  x$('should not return anything if nothing is passed', function(){
+    expect(utils.matchSelector('bar', null)).toBe(void 8);
   });
 });
