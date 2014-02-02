@@ -158,3 +158,47 @@ describe('utils.hasClass', function(){
     expect(hasBar(el2)).toBe(false);
   });
 });
+describe('utils.data', function(){
+  var x$;
+  x$ = it;
+  beforeEach(function(){
+    setFixtures("<p id=\"nodata\"></p>\n<p id=\"data\" data-foo=\"bar\"></p>");
+  });
+  x$('should retrieve data', function(){
+    var el;
+    el = utils.byId('data');
+    expect(utils.data('foo', el)).toEqual('bar');
+  });
+  x$('should be curried', function(){
+    var el, getFoo;
+    el = utils.byId('data');
+    getFoo = utils.data('foo');
+    expect(getFoo(el)).toEqual('bar');
+  });
+});
+describe('utils.setData', function(){
+  var x$;
+  x$ = it;
+  beforeEach(function(){
+    setFixtures("<p id=\"setdata\"></p>");
+  });
+  afterEach(function(){
+    utils.byId.clearCache();
+  });
+  x$('should set data attribute', function(){
+    var el;
+    el = utils.byId('setdata');
+    utils.setData('foo', el, 'bar');
+    expect(utils.data('foo', el)).toEqual('bar');
+  });
+  x$('should be curried', function(){
+    var el, setBar, setBazOnEl;
+    el = utils.byId('setdata');
+    setBar = utils.setData('bar');
+    setBar(el, 'baz');
+    expect(utils.data('bar', el)).toEqual('baz');
+    setBazOnEl = utils.setData('baz', el);
+    setBazOnEl('foobar');
+    expect(utils.data('baz', el)).toEqual('foobar');
+  });
+});
