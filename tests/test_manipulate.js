@@ -158,3 +158,21 @@ describe('utils.hasClass', function(){
     expect(hasBar(el2)).toBe(false);
   });
 });
+describe('utils.data', function(){
+  var x$;
+  x$ = it;
+  beforeEach(function(){
+    setFixtures("<p id=\"nodata\"></p>\n<p id=\"data\" data-foo=\"bar\"></p>");
+  });
+  x$('should retrieve data', function(){
+    var el;
+    el = utils.byId('data');
+    expect(utils.data('foo', el)).toEqual('bar');
+  });
+  x$('should be curried', function(){
+    var el, getFoo;
+    el = utils.byId('data');
+    getFoo = utils.data('foo');
+    expect(getFoo(el)).toEqual('bar');
+  });
+});

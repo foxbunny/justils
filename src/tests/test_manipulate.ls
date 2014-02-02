@@ -151,3 +151,22 @@ describe 'utils.hasClass', !-> ``it``
     has-bar = utils.has-class \bar
     expect has-bar el1 .to-be true
     expect has-bar el2 .to-be false
+
+
+describe 'utils.data', !-> ``it``
+
+  before-each !->
+    set-fixtures """
+    <p id="nodata"></p>
+    <p id="data" data-foo="bar"></p>
+  """
+
+  .. 'should retrieve data', !->
+    el = utils.by-id \data
+    expect utils.data \foo, el .to-equal \bar
+
+  .. 'should be curried', !->
+    el = utils.by-id \data
+    get-foo = utils.data \foo
+    expect get-foo el .to-equal \bar
+

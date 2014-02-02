@@ -41,3 +41,6 @@ define (require) ->
 
   has-class: has-class = (name, el) -->
     (" #{el.class-name} ".index-of " #{name} ") > -1
+
+  data: data = (name, el) -->
+    el.dataset?[name] or el.get-attribute "data-#{name}"
