@@ -23,16 +23,19 @@ define (require) ->
     el.style[property] = value if el.style[property]?
 
   add-class: add-class = (name, el) !-->
-    if el.class-list?
-      el.class-list.add name
+    if typeof! name is \Array
+      name = name.join ' '
+    if el.class-name.length
+      el.class-name += " #{name}"
     else
-      if el.class-name.length
-        el.class-name += " #{name}"
-      else
-        el.class-name += name
+      el.class-name += name
 
   remove-class: remove-class = (name, el) !-->
-    if el.class-list?
-      el.class-list.remove name
+    if typeof! name is \String
+      name = name.split ' '
+    if name.length > 1
+      re = RegExp " ?(#{name.join \|})", 'g'
     else
-      el.class-name = el.class-name.replace RegExp " ?#{name}"
+      re = RegExp " ?#{name}", 'g'
+    el.class-name = el.class-name.replace re, ''
+

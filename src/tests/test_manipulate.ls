@@ -77,12 +77,28 @@ describe 'utils.addClass', !-> ``it``
     add-bar el
     expect el .to-have-class \bar
 
+  .. 'should add multiple classes', !->
+    el = utils.by-id \addclass
+    utils.add-class 'one two three', el
+    expect el .to-have-class \one
+    expect el .to-have-class \two
+    expect el .to-have-class \three
+
+  .. 'should add multiple classes when passed an array', !->
+    el = utils.by-id \addclass
+    utils.add-class <[first second third]>, el
+    expect el .to-have-class \first
+    expect el .to-have-class \second
+    expect el .to-have-class \third
+
 
 describe 'utils.removeClass', !-> ``it``
 
   before-each ->
     set-fixtures """
     <p id="removeclass" class="foo bar baz"></p>
+    <p id="removeclass-multi" class="one two three foo"></p>
+    <p id="removeclass-multi-again" class="one two three foo"></p>
     """
 
   after-each ->
@@ -100,4 +116,18 @@ describe 'utils.removeClass', !-> ``it``
     remove-baz = utils.remove-class \baz
     remove-baz el
     expect el .not.to-have-class \baz
+
+  .. 'should remove multiple classes', !->
+    el = utils.by-id \removeclass-multi
+    utils.remove-class 'three two one', el
+    expect el .not.to-have-class \one
+    expect el .not.to-have-class \two
+    expect el .not.to-have-class \three
+
+  .. 'should remove multiple classes when argument is an array', !->
+    el = utils.by-id \removeclass-multi-again
+    utils.remove-class <[two one three]>, el
+    expect el .not.to-have-class \one
+    expect el .not.to-have-class \two
+    expect el .not.to-have-class \three
 

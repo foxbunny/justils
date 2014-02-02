@@ -79,12 +79,28 @@ describe('utils.addClass', function(){
     addBar(el);
     expect(el).toHaveClass('bar');
   });
+  x$('should add multiple classes', function(){
+    var el;
+    el = utils.byId('addclass');
+    utils.addClass('one two three', el);
+    expect(el).toHaveClass('one');
+    expect(el).toHaveClass('two');
+    expect(el).toHaveClass('three');
+  });
+  x$('should add multiple classes when passed an array', function(){
+    var el;
+    el = utils.byId('addclass');
+    utils.addClass(['first', 'second', 'third'], el);
+    expect(el).toHaveClass('first');
+    expect(el).toHaveClass('second');
+    expect(el).toHaveClass('third');
+  });
 });
 describe('utils.removeClass', function(){
   var x$;
   x$ = it;
   beforeEach(function(){
-    return setFixtures("<p id=\"removeclass\" class=\"foo bar baz\"></p>");
+    return setFixtures("<p id=\"removeclass\" class=\"foo bar baz\"></p>\n<p id=\"removeclass-multi\" class=\"one two three foo\"></p>\n<p id=\"removeclass-multi-again\" class=\"one two three foo\"></p>");
   });
   afterEach(function(){
     return utils.byId.clearCache();
@@ -103,5 +119,21 @@ describe('utils.removeClass', function(){
     removeBaz = utils.removeClass('baz');
     removeBaz(el);
     expect(el).not.toHaveClass('baz');
+  });
+  x$('should remove multiple classes', function(){
+    var el;
+    el = utils.byId('removeclass-multi');
+    utils.removeClass('three two one', el);
+    expect(el).not.toHaveClass('one');
+    expect(el).not.toHaveClass('two');
+    expect(el).not.toHaveClass('three');
+  });
+  x$('should remove multiple classes when argument is an array', function(){
+    var el;
+    el = utils.byId('removeclass-multi-again');
+    utils.removeClass(['two', 'one', 'three'], el);
+    expect(el).not.toHaveClass('one');
+    expect(el).not.toHaveClass('two');
+    expect(el).not.toHaveClass('three');
   });
 });
