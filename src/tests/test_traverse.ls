@@ -1,9 +1,7 @@
-const fixtures = jasmine.get-fixtures!
-
 describe 'utils.byId', !-> ``it``
 
-  before-each ->
-    fixtures.set """
+  before-each !->
+    set-fixtures """
       <p id="foo">inner</p>
       <p id="bar">bar inner</p>
       <p id="baz">baz inner</p>
@@ -40,11 +38,10 @@ describe 'utils.byId', !-> ``it``
       [\nocache]
     ]
 
-
 describe 'utils.byClass', !-> ``it``
 
-  before-each ->
-    fixtures.set """
+  before-each !->
+    set-fixtures """
       <ul class="list" id="first">
         <li class="list-item" id="1"></li>
         <li class="list-item" id="2"></li>
@@ -64,6 +61,9 @@ describe 'utils.byClass', !-> ``it``
         </ul>
       </div>
     """
+
+  after-each ->
+    utils.by-id.clear-cache!
 
   .. 'should select elements by class', !->
     elems = utils.by-class \list-item, document
