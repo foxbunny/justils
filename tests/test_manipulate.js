@@ -286,21 +286,21 @@ describe('utils.matchAttr', function(){
   x$('should return true if element has matching attribute', function(){
     var el;
     el = utils.byId('hastitle');
-    expect(utils.matchAttr('title', 'foo', el)).toBe(true);
-    expect(utils.matchAttr('title', 'bar', el)).toBe(false);
+    expect(utils.matchAttr('title', 'foo', el)).toBe(el);
+    expect(utils.matchAttr('title', 'bar', el)).toBe(void 8);
   });
   x$('should return false for non-existent attributes', function(){
     var el;
     el = utils.byId('hastitle');
-    expect(utils.matchAttr('href', 'http://example.com/', el)).toBe(false);
+    expect(utils.matchAttr('href', 'http://example.com/', el)).toBe(void 8);
   });
   x$('should be curried', function(){
     var el, matchTitle, matchFoo;
     el = utils.byId('hastitle');
     matchTitle = utils.matchAttr('title');
-    expect(matchTitle('foo', el)).toBe(true);
-    expect(matchTitle('bar', el)).toBe(false);
+    expect(matchTitle('foo', el)).toBe(el);
+    expect(matchTitle('bar', el)).toBe(void 8);
     matchFoo = utils.matchAttr('title', 'foo');
-    expect(matchFoo(el)).toBe(true);
+    expect(matchFoo(el)).toBe(el);
   });
 });

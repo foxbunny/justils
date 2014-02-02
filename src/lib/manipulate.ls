@@ -61,4 +61,4 @@ define (require) ->
     el.has-attribute name
 
   match-attr: match-attr = (name, val, el) -->
-    (attr name, el) is val
+    el if (attr name, el) is val

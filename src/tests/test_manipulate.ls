@@ -278,18 +278,18 @@ describe 'utils.matchAttr', !-> ``it``
 
   .. 'should return true if element has matching attribute', !->
     el = utils.by-id \hastitle
-    expect utils.match-attr \title, \foo, el .to-be true
-    expect utils.match-attr \title, \bar, el .to-be false
+    expect utils.match-attr \title, \foo, el .to-be el
+    expect utils.match-attr \title, \bar, el .to-be void
 
   .. 'should return false for non-existent attributes', !->
     el = utils.by-id \hastitle
-    expect utils.match-attr \href, 'http://example.com/', el .to-be false
+    expect utils.match-attr \href, 'http://example.com/', el .to-be void
 
   .. 'should be curried', !->
     el = utils.by-id \hastitle
     match-title = utils.match-attr \title
-    expect match-title \foo, el .to-be true
-    expect match-title \bar, el .to-be false
+    expect match-title \foo, el .to-be el
+    expect match-title \bar, el .to-be void
     match-foo = utils.match-attr \title, \foo
-    expect match-foo el .to-be true
+    expect match-foo el .to-be el
 
