@@ -131,3 +131,23 @@ describe 'utils.removeClass', !-> ``it``
     expect el .not.to-have-class \two
     expect el .not.to-have-class \three
 
+
+describe 'utils.hasClass', !-> ``it``
+
+  before-each !->
+    set-fixtures """
+    <div id="hasclass" class="foo bar"></div>
+    <div id="noclass"></div>
+    """
+
+  .. 'should test if element has class', !->
+    el = utils.by-id \hasclass
+    expect utils.has-class \foo, el .to-be true
+    expect utils.has-class \baz, el .to-be false
+
+  .. 'should be curried', !->
+    el1 = utils.by-id \hasclass
+    el2 = utils.by-id \noclass
+    has-bar = utils.has-class \bar
+    expect has-bar el1 .to-be true
+    expect has-bar el2 .to-be false

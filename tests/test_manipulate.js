@@ -137,3 +137,24 @@ describe('utils.removeClass', function(){
     expect(el).not.toHaveClass('three');
   });
 });
+describe('utils.hasClass', function(){
+  var x$;
+  x$ = it;
+  beforeEach(function(){
+    setFixtures("<div id=\"hasclass\" class=\"foo bar\"></div>\n<div id=\"noclass\"></div>");
+  });
+  x$('should test if element has class', function(){
+    var el;
+    el = utils.byId('hasclass');
+    expect(utils.hasClass('foo', el)).toBe(true);
+    expect(utils.hasClass('baz', el)).toBe(false);
+  });
+  x$('should be curried', function(){
+    var el1, el2, hasBar;
+    el1 = utils.byId('hasclass');
+    el2 = utils.byId('noclass');
+    hasBar = utils.hasClass('bar');
+    expect(hasBar(el1)).toBe(true);
+    expect(hasBar(el2)).toBe(false);
+  });
+});

@@ -39,3 +39,5 @@ define (require) ->
       re = RegExp " ?#{name}", 'g'
     el.class-name = el.class-name.replace re, ''
 
+  has-class: has-class = (name, el) -->
+    (" #{el.class-name} ".index-of " #{name} ") > -1
