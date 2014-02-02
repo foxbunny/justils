@@ -30,3 +30,9 @@ define (require) ->
         el.class-name += " #{name}"
       else
         el.class-name += name
+
+  remove-class: remove-class = (name, el) !-->
+    if el.class-list?
+      el.class-list.remove name
+    else
+      el.class-name = el.class-name.replace RegExp " ?#{name}"

@@ -80,3 +80,28 @@ describe('utils.addClass', function(){
     expect(el).toHaveClass('bar');
   });
 });
+describe('utils.removeClass', function(){
+  var x$;
+  x$ = it;
+  beforeEach(function(){
+    return setFixtures("<p id=\"removeclass\" class=\"foo bar baz\"></p>");
+  });
+  afterEach(function(){
+    return utils.byId.clearCache();
+  });
+  x$('should remove class', function(){
+    var el;
+    el = utils.byId('removeclass');
+    utils.removeClass('foo', el);
+    expect(el).not.toHaveClass('foo');
+    expect(el).toHaveClass('bar');
+    expect(el).toHaveClass('baz');
+  });
+  x$('should be curried', function(){
+    var el, removeBaz;
+    el = utils.byId('removeclass');
+    removeBaz = utils.removeClass('baz');
+    removeBaz(el);
+    expect(el).not.toHaveClass('baz');
+  });
+});

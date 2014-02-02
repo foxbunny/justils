@@ -76,3 +76,28 @@ describe 'utils.addClass', !-> ``it``
     el = utils.by-id \addclass
     add-bar el
     expect el .to-have-class \bar
+
+
+describe 'utils.removeClass', !-> ``it``
+
+  before-each ->
+    set-fixtures """
+    <p id="removeclass" class="foo bar baz"></p>
+    """
+
+  after-each ->
+    utils.by-id.clear-cache!
+
+  .. 'should remove class', !->
+    el = utils.by-id \removeclass
+    utils.remove-class \foo, el
+    expect el .not.to-have-class \foo
+    expect el .to-have-class \bar
+    expect el .to-have-class \baz
+
+  .. 'should be curried', !->
+    el = utils.by-id \removeclass
+    remove-baz = utils.remove-class \baz
+    remove-baz el
+    expect el .not.to-have-class \baz
+
