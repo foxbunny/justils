@@ -153,6 +153,27 @@ describe 'utils.hasClass', !-> ``it``
     expect has-bar el2 .to-be false
 
 
+describe 'utils.matchClass', !-> ``it``
+
+  before-each !->
+    set-fixtures """
+    <p id="hasfoo" class="foo"></p>
+    """
+
+  after-each !->
+    utils.by-id.clear-cache!
+
+  .. 'should return element if it has matching class', !->
+    el = utils.by-id \hasfoo
+    expect utils.match-class \foo, el .to-be el
+    expect utils.match-class \bar, el .to-be void
+
+  .. 'should be curried', !->
+    el = utils.by-id \hasfoo
+    has-foo = utils.match-class \foo
+    expect has-foo el .to-be el
+
+
 describe 'utils.data', !-> ``it``
 
   before-each !->

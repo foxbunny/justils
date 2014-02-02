@@ -158,6 +158,28 @@ describe('utils.hasClass', function(){
     expect(hasBar(el2)).toBe(false);
   });
 });
+describe('utils.matchClass', function(){
+  var x$;
+  x$ = it;
+  beforeEach(function(){
+    setFixtures("<p id=\"hasfoo\" class=\"foo\"></p>");
+  });
+  afterEach(function(){
+    utils.byId.clearCache();
+  });
+  x$('should return element if it has matching class', function(){
+    var el;
+    el = utils.byId('hasfoo');
+    expect(utils.matchClass('foo', el)).toBe(el);
+    expect(utils.matchClass('bar', el)).toBe(void 8);
+  });
+  x$('should be curried', function(){
+    var el, hasFoo;
+    el = utils.byId('hasfoo');
+    hasFoo = utils.matchClass('foo');
+    expect(hasFoo(el)).toBe(el);
+  });
+});
 describe('utils.data', function(){
   var x$;
   x$ = it;
