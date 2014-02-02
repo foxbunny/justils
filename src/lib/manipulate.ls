@@ -21,3 +21,23 @@ define (require) ->
   css: css = (property, value, el) !-->
     property = helpers.camelize property
     el.style[property] = value if el.style[property]?
+
+  add-class: add-class = (name, el) !-->
+    if typeof! name is \Array
+      name = name.join ' '
+    if el.class-name.length
+      el.class-name += " #{name}"
+    else
+      el.class-name += name
+
+  remove-class: remove-class = (name, el) !-->
+    if typeof! name is \String
+      name = name.split ' '
+    if name.length > 1
+      re = RegExp " ?(#{name.join \|})", 'g'
+    else
+      re = RegExp " ?#{name}", 'g'
+    el.class-name = el.class-name.replace re, ''
+
+  has-class: has-class = (name, el) -->
+    (" #{el.class-name} ".index-of " #{name} ") > -1

@@ -55,3 +55,99 @@ describe 'utils.css', !-> ``it``
     hide el
     expect el.style.display .to-equal \none
 
+
+describe 'utils.addClass', !-> ``it``
+
+  before-each !->
+    set-fixtures """
+    <p id="addclass"></p>
+    """
+
+  after-each !->
+    utils.by-id.clear-cache!
+
+  .. 'should add a class name to element', !->
+    el = utils.by-id \addclass
+    utils.add-class \foo, el
+    expect el .to-have-class \foo
+
+  .. 'should be curried', !->
+    add-bar = utils.add-class \bar
+    el = utils.by-id \addclass
+    add-bar el
+    expect el .to-have-class \bar
+
+  .. 'should add multiple classes', !->
+    el = utils.by-id \addclass
+    utils.add-class 'one two three', el
+    expect el .to-have-class \one
+    expect el .to-have-class \two
+    expect el .to-have-class \three
+
+  .. 'should add multiple classes when passed an array', !->
+    el = utils.by-id \addclass
+    utils.add-class <[first second third]>, el
+    expect el .to-have-class \first
+    expect el .to-have-class \second
+    expect el .to-have-class \third
+
+
+describe 'utils.removeClass', !-> ``it``
+
+  before-each ->
+    set-fixtures """
+    <p id="removeclass" class="foo bar baz"></p>
+    <p id="removeclass-multi" class="one two three foo"></p>
+    <p id="removeclass-multi-again" class="one two three foo"></p>
+    """
+
+  after-each ->
+    utils.by-id.clear-cache!
+
+  .. 'should remove class', !->
+    el = utils.by-id \removeclass
+    utils.remove-class \foo, el
+    expect el .not.to-have-class \foo
+    expect el .to-have-class \bar
+    expect el .to-have-class \baz
+
+  .. 'should be curried', !->
+    el = utils.by-id \removeclass
+    remove-baz = utils.remove-class \baz
+    remove-baz el
+    expect el .not.to-have-class \baz
+
+  .. 'should remove multiple classes', !->
+    el = utils.by-id \removeclass-multi
+    utils.remove-class 'three two one', el
+    expect el .not.to-have-class \one
+    expect el .not.to-have-class \two
+    expect el .not.to-have-class \three
+
+  .. 'should remove multiple classes when argument is an array', !->
+    el = utils.by-id \removeclass-multi-again
+    utils.remove-class <[two one three]>, el
+    expect el .not.to-have-class \one
+    expect el .not.to-have-class \two
+    expect el .not.to-have-class \three
+
+
+describe 'utils.hasClass', !-> ``it``
+
+  before-each !->
+    set-fixtures """
+    <div id="hasclass" class="foo bar"></div>
+    <div id="noclass"></div>
+    """
+
+  .. 'should test if element has class', !->
+    el = utils.by-id \hasclass
+    expect utils.has-class \foo, el .to-be true
+    expect utils.has-class \baz, el .to-be false
+
+  .. 'should be curried', !->
+    el1 = utils.by-id \hasclass
+    el2 = utils.by-id \noclass
+    has-bar = utils.has-class \bar
+    expect has-bar el1 .to-be true
+    expect has-bar el2 .to-be false

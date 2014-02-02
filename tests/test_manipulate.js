@@ -57,3 +57,104 @@ describe('utils.css', function(){
     expect(el.style.display).toEqual('none');
   });
 });
+describe('utils.addClass', function(){
+  var x$;
+  x$ = it;
+  beforeEach(function(){
+    setFixtures("<p id=\"addclass\"></p>");
+  });
+  afterEach(function(){
+    utils.byId.clearCache();
+  });
+  x$('should add a class name to element', function(){
+    var el;
+    el = utils.byId('addclass');
+    utils.addClass('foo', el);
+    expect(el).toHaveClass('foo');
+  });
+  x$('should be curried', function(){
+    var addBar, el;
+    addBar = utils.addClass('bar');
+    el = utils.byId('addclass');
+    addBar(el);
+    expect(el).toHaveClass('bar');
+  });
+  x$('should add multiple classes', function(){
+    var el;
+    el = utils.byId('addclass');
+    utils.addClass('one two three', el);
+    expect(el).toHaveClass('one');
+    expect(el).toHaveClass('two');
+    expect(el).toHaveClass('three');
+  });
+  x$('should add multiple classes when passed an array', function(){
+    var el;
+    el = utils.byId('addclass');
+    utils.addClass(['first', 'second', 'third'], el);
+    expect(el).toHaveClass('first');
+    expect(el).toHaveClass('second');
+    expect(el).toHaveClass('third');
+  });
+});
+describe('utils.removeClass', function(){
+  var x$;
+  x$ = it;
+  beforeEach(function(){
+    return setFixtures("<p id=\"removeclass\" class=\"foo bar baz\"></p>\n<p id=\"removeclass-multi\" class=\"one two three foo\"></p>\n<p id=\"removeclass-multi-again\" class=\"one two three foo\"></p>");
+  });
+  afterEach(function(){
+    return utils.byId.clearCache();
+  });
+  x$('should remove class', function(){
+    var el;
+    el = utils.byId('removeclass');
+    utils.removeClass('foo', el);
+    expect(el).not.toHaveClass('foo');
+    expect(el).toHaveClass('bar');
+    expect(el).toHaveClass('baz');
+  });
+  x$('should be curried', function(){
+    var el, removeBaz;
+    el = utils.byId('removeclass');
+    removeBaz = utils.removeClass('baz');
+    removeBaz(el);
+    expect(el).not.toHaveClass('baz');
+  });
+  x$('should remove multiple classes', function(){
+    var el;
+    el = utils.byId('removeclass-multi');
+    utils.removeClass('three two one', el);
+    expect(el).not.toHaveClass('one');
+    expect(el).not.toHaveClass('two');
+    expect(el).not.toHaveClass('three');
+  });
+  x$('should remove multiple classes when argument is an array', function(){
+    var el;
+    el = utils.byId('removeclass-multi-again');
+    utils.removeClass(['two', 'one', 'three'], el);
+    expect(el).not.toHaveClass('one');
+    expect(el).not.toHaveClass('two');
+    expect(el).not.toHaveClass('three');
+  });
+});
+describe('utils.hasClass', function(){
+  var x$;
+  x$ = it;
+  beforeEach(function(){
+    setFixtures("<div id=\"hasclass\" class=\"foo bar\"></div>\n<div id=\"noclass\"></div>");
+  });
+  x$('should test if element has class', function(){
+    var el;
+    el = utils.byId('hasclass');
+    expect(utils.hasClass('foo', el)).toBe(true);
+    expect(utils.hasClass('baz', el)).toBe(false);
+  });
+  x$('should be curried', function(){
+    var el1, el2, hasBar;
+    el1 = utils.byId('hasclass');
+    el2 = utils.byId('noclass');
+    hasBar = utils.hasClass('bar');
+    expect(hasBar(el1)).toBe(true);
+    expect(hasBar(el2)).toBe(false);
+  });
+});
