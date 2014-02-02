@@ -1,9 +1,7 @@
-const fixtures = jasmine.get-fixtures!
-
 describe 'utils.byId', !-> ``it``
 
-  before-each ->
-    fixtures.set """
+  before-each !->
+    set-fixtures """
       <p id="foo">inner</p>
       <p id="bar">bar inner</p>
       <p id="baz">baz inner</p>
@@ -40,11 +38,10 @@ describe 'utils.byId', !-> ``it``
       [\nocache]
     ]
 
-
 describe 'utils.byClass', !-> ``it``
 
-  before-each ->
-    fixtures.set """
+  before-each !->
+    set-fixtures """
       <ul class="list" id="first">
         <li class="list-item" id="1"></li>
         <li class="list-item" id="2"></li>
@@ -64,6 +61,9 @@ describe 'utils.byClass', !-> ``it``
         </ul>
       </div>
     """
+
+  after-each ->
+    utils.by-id.clear-cache!
 
   .. 'should select elements by class', !->
     elems = utils.by-class \list-item, document
@@ -91,3 +91,55 @@ describe 'utils.byClass', !-> ``it``
     root = utils.by-id \first
     elems = list-items root
     expect elems.length .to-equal 2
+
+
+describe 'utils.byTag', !-> ``it``
+
+  before-each !->
+    set-fixtures """
+    <p></p>
+    <p></p>
+    <p></p>
+    <ul id="list">
+      <li></li>
+      <li></li>
+    </ul>
+    <ul id="other-list">
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+    </ul>
+    <div id="top">
+      <p></p>
+      <p></p>
+      <div id="middle">
+        <p></p>
+        <p></p>
+        <div id="bottom">
+          <p></p>
+          <p></p>
+        </div>
+      </div>
+    </div>
+    """
+
+  .. 'should select elements by tag name', !->
+    elems = utils.by-tag \P, document
+    expect elems.length .to-equal 9
+    for el in elems
+      expect el .to-exist!
+
+  .. 'last argument should limit scope', !->
+    elems = utils.by-tag \li, utils.by-id \list
+    expect elems.length .to-equal 2
+
+  .. 'should be curried', !->
+    get-p = utils.by-tag \p
+    top = get-p utils.by-id \top
+    middle = get-p utils.by-id \middle
+    bottom = get-p utils.by-id \bottom
+    expect top.length .to-equal 6
+    expect middle.length .to-equal 4
+    expect bottom.length .to-equal 2
+
