@@ -239,3 +239,28 @@ describe 'utils.setAttribute', !-> ``it``
     set-href-on-el = utils.set-attr \href, el
     set-href-on-el 'http://www.test.com/'
     expect utils.attr \href, el .to-equal 'http://www.test.com/'
+
+
+describe 'utils.hasAttr', !-> ``it``
+
+  before-each !->
+    set-fixtures """
+    <a id="nohref"></a>
+    <a id="hashref" href="http://test.com/"></a>
+    """
+
+  after-each !->
+    utils.by-id.clear-cache!
+
+  .. 'should return true if element has attribute', !->
+    el1 = utils.by-id \nohref
+    el2 = utils.by-id \hashref
+    expect utils.has-attr \href, el1 .to-be false
+    expect utils.has-attr \href, el2 .to-be true
+
+  .. 'should be curried', !->
+    el1 = utils.by-id \nohref
+    el2 = utils.by-id \hashref
+    has-href = utils.has-attr \href
+    expect has-href el1 .to-be false
+    expect has-href el2 .to-be true

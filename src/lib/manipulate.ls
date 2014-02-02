@@ -56,3 +56,6 @@ define (require) ->
 
   set-attr: set-attr = (name, el, value) !-->
     el.set-attribute name, value
+
+  has-attr: has-attr = (name, el) -->
+    el.has-attribute name

@@ -249,3 +249,28 @@ describe('utils.setAttribute', function(){
     expect(utils.attr('href', el)).toEqual('http://www.test.com/');
   });
 });
+describe('utils.hasAttr', function(){
+  var x$;
+  x$ = it;
+  beforeEach(function(){
+    setFixtures("<a id=\"nohref\"></a>\n<a id=\"hashref\" href=\"http://test.com/\"></a>");
+  });
+  afterEach(function(){
+    utils.byId.clearCache();
+  });
+  x$('should return true if element has attribute', function(){
+    var el1, el2;
+    el1 = utils.byId('nohref');
+    el2 = utils.byId('hashref');
+    expect(utils.hasAttr('href', el1)).toBe(false);
+    expect(utils.hasAttr('href', el2)).toBe(true);
+  });
+  x$('should be curried', function(){
+    var el1, el2, hasHref;
+    el1 = utils.byId('nohref');
+    el2 = utils.byId('hashref');
+    hasHref = utils.hasAttr('href');
+    expect(hasHref(el1)).toBe(false);
+    expect(hasHref(el2)).toBe(true);
+  });
+});
