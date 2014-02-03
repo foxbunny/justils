@@ -78,6 +78,7 @@ describe 'utils.byClass', !-> ``it``
 
   .. 'should select elements by class', !->
     elems = utils.by-class \list-item, document
+    elems = [e for e in elems]
     expect elems.length .to-equal 8
     for el in elems
       expect el .to-exist!
