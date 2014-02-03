@@ -50,8 +50,14 @@ describe('utils.byClass', function(){
     return utils.byId.clearCache();
   });
   x$('should select elements by class', function(){
-    var elems, i$, len$, el;
+    var elems, res$, i$, len$, e, el;
     elems = utils.byClass('list-item', document);
+    res$ = [];
+    for (i$ = 0, len$ = elems.length; i$ < len$; ++i$) {
+      e = elems[i$];
+      res$.push(e);
+    }
+    elems = res$;
     expect(elems.length).toEqual(8);
     for (i$ = 0, len$ = elems.length; i$ < len$; ++i$) {
       el = elems[i$];

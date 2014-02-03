@@ -26,7 +26,7 @@ define (require) ->
     if el.class-name.length
       el.class-name += " #{name}"
     else
-      el.class-name += name
+      el.class-name += "#{name}"
 
   remove-class: remove-class = (name, el) !-->
     if typeof! name is \String

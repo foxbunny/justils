@@ -19,7 +19,10 @@ define ->
   )!
 
   by-class: by-class = (cls, el) -->
-    el.get-elements-by-class-name? cls or el.query-selector-all? ".#{cls}"
+    if el.get-elements-by-class-name?
+      el.get-elements-by-class-name cls
+    else
+      el.query-selector-all ".#{cls}"
 
   by-tag: by-tag = (name, el) -->
     el.get-elements-by-tag-name name
