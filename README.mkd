@@ -10,6 +10,7 @@ Justils have the following features:
  + Lightweight
  + Curried functions
  + Modular (supports AMD loaders)
+ + MIT-licensed
 
 ### No unnecessary fixes or enhancements
 
@@ -42,6 +43,11 @@ Although the `helpers` module is required by some of the other modules, you can
 use most of the modules stand-alone. If you don't need DOM traversing
 functions, simply omit that module. The modules are all loadable using AMD
 loaders such as [RequireJS](http://requirejs.org/).
+
+### MIT-licensed
+
+Justils are licensed under MIT license. See the `LICENSE` file in the sources
+for more information.
 
 ## Browser support
 
