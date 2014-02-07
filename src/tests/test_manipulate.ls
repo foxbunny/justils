@@ -216,7 +216,7 @@ describe 'just.attr', !-> ``it``
     expect title el .to-equal \Example
 
 
-describe 'just.setAttribute', !-> ``it``
+describe 'just.setAttr', !-> ``it``
 
   before-each !->
     set-fixtures """

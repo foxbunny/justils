@@ -223,7 +223,7 @@ describe('just.attr', function(){
     expect(title(el)).toEqual('Example');
   });
 });
-describe('just.setAttribute', function(){
+describe('just.setAttr', function(){
   var x$;
   x$ = it;
   beforeEach(function(){
