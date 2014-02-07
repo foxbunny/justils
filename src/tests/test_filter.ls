@@ -1,4 +1,4 @@
-describe 'utils.matchClass', !-> ``it``
+describe 'just.matchClass', !-> ``it``
 
   before-each !->
     set-fixtures """
@@ -6,23 +6,23 @@ describe 'utils.matchClass', !-> ``it``
     """
 
   after-each !->
-    utils.by-id.clear-cache!
+    just.by-id.clear-cache!
 
   .. 'should return element if it has matching class', !->
-    el = utils.by-id \hasfoo
-    expect utils.match-class \foo, el .to-be el
-    expect utils.match-class \bar, el .to-be void
+    el = just.by-id \hasfoo
+    expect just.match-class \foo, el .to-be el
+    expect just.match-class \bar, el .to-be void
 
   .. 'should be curried', !->
-    el = utils.by-id \hasfoo
-    has-foo = utils.match-class \foo
+    el = just.by-id \hasfoo
+    has-foo = just.match-class \foo
     expect has-foo el .to-be el
 
   .. 'should not return anything if nothing is passed', !->
-    expect utils.match-class \foo, null .to-be void
+    expect just.match-class \foo, null .to-be void
 
 
-describe 'utils.matchAttr', !-> ``it``
+describe 'just.matchAttr', !-> ``it``
 
   before-each !->
     set-fixtures """
@@ -30,30 +30,30 @@ describe 'utils.matchAttr', !-> ``it``
     """
 
   after-each !->
-    utils.by-id.clear-cache!
+    just.by-id.clear-cache!
 
   .. 'should return true if element has matching attribute', !->
-    el = utils.by-id \hastitle
-    expect utils.match-attr \title, \foo, el .to-be el
-    expect utils.match-attr \title, \bar, el .to-be void
+    el = just.by-id \hastitle
+    expect just.match-attr \title, \foo, el .to-be el
+    expect just.match-attr \title, \bar, el .to-be void
 
   .. 'should return false for non-existent attributes', !->
-    el = utils.by-id \hastitle
-    expect utils.match-attr \href, 'http://example.com/', el .to-be void
+    el = just.by-id \hastitle
+    expect just.match-attr \href, 'http://example.com/', el .to-be void
 
   .. 'should be curried', !->
-    el = utils.by-id \hastitle
-    match-title = utils.match-attr \title
+    el = just.by-id \hastitle
+    match-title = just.match-attr \title
     expect match-title \foo, el .to-be el
     expect match-title \bar, el .to-be void
-    match-foo = utils.match-attr \title, \foo
+    match-foo = just.match-attr \title, \foo
     expect match-foo el .to-be el
 
   .. 'should not return anything if nothing is passed', !->
-    expect utils.match-attr \foo, \bar, null .to-be void
+    expect just.match-attr \foo, \bar, null .to-be void
 
 
-describe 'utils.match-selector', !-> ``it``
+describe 'just.matchSelector', !-> ``it``
 
   before-each !->
     set-fixtures """
@@ -61,23 +61,23 @@ describe 'utils.match-selector', !-> ``it``
     """
 
   after-each !->
-    utils.by-id.clear-cache!
+    just.by-id.clear-cache!
 
   .. 'should return element if it matches selector', !->
-    el = utils.by-id \foo
-    expect utils.match-selector \p.foo, el .to-be el
-    expect utils.match-selector \div.foo, el .to-be void
+    el = just.by-id \foo
+    expect just.match-selector \p.foo, el .to-be el
+    expect just.match-selector \div.foo, el .to-be void
 
   .. 'should be curried', !->
-    el = utils.by-id \foo
-    is-p-foo = utils.match-selector \p.foo
+    el = just.by-id \foo
+    is-p-foo = just.match-selector \p.foo
     expect is-p-foo el .to-be el
 
   .. 'should not return anything if nothing is passed', !->
-    expect utils.match-selector \bar, null .to-be void
+    expect just.match-selector \bar, null .to-be void
 
 
-describe 'utils.matchAll', !-> ``it``
+describe 'just.matchAll', !-> ``it``
 
   before-each !->
     set-fixtures """
@@ -86,41 +86,41 @@ describe 'utils.matchAll', !-> ``it``
     """
 
   after-each !->
-    utils.by-id.clear-cache!
+    just.by-id.clear-cache!
 
   .. 'should return the element if it matches all matchers', !->
-    el = utils.by-id \foo
-    match-bar = utils.match-class \bar
-    match-baz = utils.match-attr \title, \baz
-    match-selector = utils.match-selector \p#foo
+    el = just.by-id \foo
+    match-bar = just.match-class \bar
+    match-baz = just.match-attr \title, \baz
+    match-selector = just.match-selector \p#foo
     matchers = [match-bar, match-baz, match-selector]
-    expect utils.match-all matchers, el .to-be el
+    expect just.match-all matchers, el .to-be el
 
   .. 'should return nothing if at least one matcher fails', !->
-    el = utils.by-id \foo
-    match-bar = utils.match-class \bar
-    match-baz = utils.match-attr \title, \baz
-    match-selector = utils.match-selector \div#foo
+    el = just.by-id \foo
+    match-bar = just.match-class \bar
+    match-baz = just.match-attr \title, \baz
+    match-selector = just.match-selector \div#foo
     matchers = [match-bar, match-baz, match-selector]
-    expect utils.match-all matchers, el .to-be void
+    expect just.match-all matchers, el .to-be void
 
   .. 'should be curried', !->
-    el1 = utils.by-id \foo
-    el2 = utils.by-id \notfoo
-    match-bar = utils.match-class \bar
-    match-baz = utils.match-attr \title, \baz
-    match-bar-baz = utils.match-all [match-bar, match-baz]
+    el1 = just.by-id \foo
+    el2 = just.by-id \notfoo
+    match-bar = just.match-class \bar
+    match-baz = just.match-attr \title, \baz
+    match-bar-baz = just.match-all [match-bar, match-baz]
     expect match-bar-baz el1 .to-be el1
     expect match-bar-baz el2 .to-be void
 
   .. 'should return nothing if nothing is passed', !->
-    match-bar = utils.match-class \bar
-    match-baz = utils.match-attr \title, \baz
+    match-bar = just.match-class \bar
+    match-baz = just.match-attr \title, \baz
     matchers = [match-bar, match-baz]
-    expect utils.match-all matchers, null .to-be void
+    expect just.match-all matchers, null .to-be void
 
 
-describe 'utils.filter', !-> ``it``
+describe 'just.filter', !-> ``it``
 
   before-each !->
     set-fixtures """
@@ -131,41 +131,41 @@ describe 'utils.filter', !-> ``it``
     """
 
   after-each !->
-    utils.by-id.clear-cache!
+    just.by-id.clear-cache!
 
   .. 'should return a filtered list of elements', !->
-    elements = utils.by-tag \p, document
-    match-foo = utils.match-class \foo
-    match-bar = utils.match-attr \title, \bar
+    elements = just.by-tag \p, document
+    match-foo = just.match-class \foo
+    match-bar = just.match-attr \title, \bar
     matchers = [match-foo, match-bar]
-    filtered = utils.filter matchers, elements
+    filtered = just.filter matchers, elements
     expect filtered.length .to-equal 3
 
   .. 'should return empty array if no element matches', !->
-    elements = utils.by-tag \p, document
-    match-bar = utils.match-class \bar
-    match-baz = utils.match-attr \title, \baz
+    elements = just.by-tag \p, document
+    match-bar = just.match-class \bar
+    match-baz = just.match-attr \title, \baz
     matchers = [match-bar, match-baz]
-    filtered = utils.filter matchers, elements
+    filtered = just.filter matchers, elements
     expect filtered.length .to-equal 0
 
   .. 'should return nothing if matchers are missing', !->
-    elements = utils.by-tag \p, document
-    expect utils.filter [], elements .to-equal void
-    expect utils.filter null, elements .to-equal void
+    elements = just.by-tag \p, document
+    expect just.filter [], elements .to-equal void
+    expect just.filter null, elements .to-equal void
 
   .. 'should return nothing if elements are missing' !->
-    match-foo = utils.match-class \foo
-    match-bar = utils.match-attr \title, \bar
+    match-foo = just.match-class \foo
+    match-bar = just.match-attr \title, \bar
     matchers = [match-foo, match-bar]
-    expect utils.filter matchers, [] .to-equal void
-    expect utils.filter matchers, null .to-equal void
+    expect just.filter matchers, [] .to-equal void
+    expect just.filter matchers, null .to-equal void
 
   .. 'should be curried', !->
-    elements = utils.by-tag \p, document
-    match-foo = utils.match-class \foo
-    match-bar = utils.match-attr \title, \bar
+    elements = just.by-tag \p, document
+    match-foo = just.match-class \foo
+    match-bar = just.match-attr \title, \bar
     matchers = [match-foo, match-bar]
-    filter-foo-bar = utils.filter matchers
+    filter-foo-bar = just.filter matchers
     filtered = filter-foo-bar elements
     expect filtered.length .to-equal 3
