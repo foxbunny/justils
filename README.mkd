@@ -1,0 +1,145 @@
+# Justils
+
+Justils are just some utils for working with DOM, DOM events, and related API.
+
+## Features
+
+Justils have the following features:
+
+ + No unnecessary fixes or enahncements to vanilla DOM API
+ + Lightweight
+ + Curried functions
+ + Modular (supports AMD loaders)
+ + MIT-licensed
+
+### No unnecessary fixes or enhancements
+
+Justils is designed to be as close to DOM API as possible. Except for event
+handling (still work in progress), it does not add polyfills, shims, or other
+fixes to make the API work the same way across all platforms. For example, if
+the native implementation returns a `NodeList`, that is what you will get. If 
+it returns a `StaticNodeList`, again, that is what you will get. It
+doesn't try to wrap them in a complex object to normalize the API.
+
+### Lightweight
+
+Justils is made lightweight by throwing away things for which there are better
+alternatives. It doesn't do AJAX, or animation.
+
+It's just over 8kb (at the moment) with no compression or gzipping.
+
+### Curried functions
+
+Most functions are curried. This means you can quickly whip up new functions
+that have some of the arguments rememebered and use them as your custom
+library. For example:
+
+    var getSelected = just.byClass('selected');
+    getSelected(myDOMNode); // Gets all .selected elements under myDOMNode
+
+### Modular
+
+Although the `helpers` module is required by some of the other modules, you can
+use most of the modules stand-alone. If you don't need DOM traversing
+functions, simply omit that module. The modules are all loadable using AMD
+loaders such as [RequireJS](http://requirejs.org/).
+
+### MIT-licensed
+
+Justils are licensed under MIT license. See the `LICENSE` file in the sources
+for more information.
+
+## Browser support
+
+Currently known to work with IE8+, newer versions of FireFox, Chrome, and
+Opera. If you find something that doesn't work, please run the unit tests (you
+need Testem).
+
+## Basic usage
+
+All Justils functions are housed under the `just` global (or whatever variable
+you assign it to when using AMD loaders).
+
+### Selecting DOM nodes by some id
+
+    // traverse module
+    var myNode = just.byId('some-id');
+
+### Selecting DOM nodes under some node by some class
+
+    // traverse module
+    var myNodes = just.byClass('some-class', myNode);
+
+### Selecting DOM nodes under some node by some tag name
+
+    // traverse module
+    var myInputs = just.byTag('input', myNode);
+
+### Filtering nodes
+
+    // filter module
+    var disabled = just.matchAttr('disabled', 'disabled');
+    var notHidden = function (el) {
+        return !just.matchAttr('type', 'hidden');
+    };
+    var disabledInputs = just.filter([disabled, notHidden], myInputs);
+
+### Manipulating the CSS
+
+    // manipuate module
+    just.css('display', 'none', myNode);
+
+    // Or with currying
+    var hide = just.css('display', 'none');
+    hide(myNode);
+
+### Manipulate classes
+
+    // manipulate module
+    just.addClass('active', myNode);
+    
+    var isActive = just.hasClass('active');
+    isActive(myNode);  // == true
+
+    var deactivate = just.removeClass('active');
+    deactivate(myNode);
+
+### Manipulate attributes
+
+    // manipulate module
+    just.attr('title', myNode'); // == myNode's title attribute value
+    just.setAttr('title', 'awesome', myNode);
+    just.hasAttr('title', myNode); // == true
+
+
+## That's it?
+
+Yes, more or less. Events are being worked on currently, and a new module will
+be added soonish.
+
+## Roadmap
+
+ + **0.0.1** First official release with complete set of features planned for
+   1.0 (including event handling)
+ + **0.0.2** Detailed docs and tutorial.
+ + **0.1** Stabilize all function signatures (requests for changing the
+   function signatures welcome until then)
+ + **1.0** Stable release with complete API freeze
+
+## Running unit tests
+
+Because it's always good to know _what_ doesn't work, please take the time to
+run the unit tests before filing a bug report. To run unit tests, install
+[Testem](https://npmjs.org/package/testem) using NPM, and run the tests with
+this command:
+
+    testem -f conf\testem.yml
+
+Then connect the browser in which Justils are broken, by pointing it to
+[localhost:7357](http://localhost:7537/).
+
+## Bugs?
+
+Yes, of course it has them. This library was craeted just the other day (pun
+intentional), so it probably doesn't work always. Report all my bugs to the
+BitBucket [issue tracker](https://bitbucket.org/brankovukelic/justils/issues).
