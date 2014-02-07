@@ -133,7 +133,7 @@ run the unit tests before filing a bug report. To run unit tests, install
 [Testem](https://npmjs.org/package/testem) using NPM, and run the tests with
 this command:
 
-    testem -f conf\testem.yml
+    testem -f conf/testem.yml
 
 Then connect the browser in which Justils are broken, by pointing it to
 [localhost:7357](http://localhost:7537/).
