@@ -6,11 +6,25 @@ Justils are just some utils for working with DOM, DOM events, and related API.
 
 Justils have the following features:
 
+ + Curried functions
  + No unnecessary fixes or enahncements to vanilla DOM API
  + Lightweight
- + Curried functions
  + Modular (supports AMD loaders)
  + MIT-licensed
+
+### Curried functions
+
+Most functions are curried. This means you can quickly whip up new functions
+that have some of the arguments rememebered and use them as your custom
+library. For example:
+
+    var getSelected = just.byClass('selected');
+    getSelected(myDOMNode); // Gets all .selected elements under myDOMNode
+
+This design comes from my personal desire to reduce the amount of boilerplate
+while still being flexible enough to add new features and shortcuts as I go.
+The obvious lack of different functions in Justils comes from the fact that
+it's super-easy to create new ones on the fly.
 
 ### No unnecessary fixes or enhancements
 
@@ -27,15 +41,6 @@ Justils is made lightweight by throwing away things for which there are better
 alternatives. It doesn't do AJAX, or animation.
 
 It's just over 8kb (at the moment) with no compression or gzipping.
-
-### Curried functions
-
-Most functions are curried. This means you can quickly whip up new functions
-that have some of the arguments rememebered and use them as your custom
-library. For example:
-
-    var getSelected = just.byClass('selected');
-    getSelected(myDOMNode); // Gets all .selected elements under myDOMNode
 
 ### Modular
 
@@ -54,6 +59,16 @@ for more information.
 Currently known to work with IE8+, newer versions of FireFox, Chrome, and
 Opera. If you find something that doesn't work, please run the unit tests (you
 need Testem).
+
+## When/why should I use Justils?
+
+Jutils requires you to know the DOM API in order to take full advantage of it.
+It does not abstract all of the API (e.g., it doesn't even have an alias for
+`querySelector` and `querySelectorAll`, which has decent cross-browser support
+within Justils' support target). It is also good in scenarios where bundling
+over 100kb of libraries just to do basic things in your application is not an 
+option. Other than that, it's a new library, so it still hasn't proved its
+versatility. All I can say is: it works for me. :)
 
 ## Basic usage
 
@@ -133,7 +148,7 @@ run the unit tests before filing a bug report. To run unit tests, install
 [Testem](https://npmjs.org/package/testem) using NPM, and run the tests with
 this command:
 
-    testem -f conf\testem.yml
+    testem -f conf/testem.yml
 
 Then connect the browser in which Justils are broken, by pointing it to
 [localhost:7357](http://localhost:7537/).
