@@ -6,7 +6,7 @@ describe 'just.triger', !-> ``it``
     <input id="target-input"></input>
     """
 
-  const has-touch = window.DocumentTouch? and document instanceof DocumentTouch
+  const has-touch = \ontouchstart of document.documentElement
 
   test-trigger = (target, event-name) ->
     target = just.by-id target

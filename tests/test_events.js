@@ -5,7 +5,7 @@ describe('just.triger', function(){
   beforeEach(function(){
     setFixtures("<button id=\"target\"></button>\n<input id=\"target-input\"></input>");
   });
-  hasTouch = window.DocumentTouch != null && document instanceof DocumentTouch;
+  hasTouch = 'ontouchstart' in document.documentElement;
   testTrigger = function(target, eventName){
     var triggered;
     target = just.byId(target);
