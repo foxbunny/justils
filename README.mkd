@@ -14,9 +14,10 @@ Justils have the following features:
 
 ### Curried functions
 
-Most functions are curried. This means you can quickly whip up new functions
-that have some of the arguments rememebered and use them as your custom
-library. For example:
+Most functions are [curried](http://en.wikipedia.org/wiki/Currying). This means
+you can quickly whip up new functions that have some of the arguments
+rememebered (a.k.a. 'partial application of arguments')and use them as your
+custom library. For example:
 
     var getSelected = just.byClass('selected');
     getSelected(myDOMNode); // Gets all .selected elements under myDOMNode
