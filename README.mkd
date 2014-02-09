@@ -159,8 +159,21 @@ you assign it to when using AMD loaders).
 
 ## That's it?
 
-Yes, more or less. Events are being worked on currently, and a new module will
-be added soonish.
+Yes, more or less. There are a few little things left out for brevity's sake.
+Full API documentation in narrative form is being planned for future releases,
+so bear with me and read the code. 
+
+There are two major reasons why there aren't many utiltiy functions. First,
+Justils support currying, so it's really easy to create new utility functions
+without having to 'program' anything. Also, because Justils only contain things
+that its author and contributors actually needed more than just once, not
+everything some theretical user could possibly need. So even if something is a
+really neat idea, there's a good chance it won't make it into Justils
+(someone's gotta maintain it, right?).
+
+And if you _do_ need something, and think it'd be worth our time and energy and
+increased size of the lbirary, let me know by [filing a feature
+request](https://bitbucket.org/brankovukelic/justils/issues/new). ;)
 
 ## Roadmap
 
