@@ -126,6 +126,35 @@ you assign it to when using AMD loaders).
     just.setAttr('title', 'awesome', myNode);
     just.hasAttr('title', myNode); // == true
 
+### Attach event listener
+
+    // events module
+    var click = just.addListener('click');
+    var listener = function () { console.log('clicked an element'); };
+    click(myNode, listener);
+
+### Remove event listener
+
+    // events module
+    just.removeListener('click', myNode, listener);
+
+### Trigger an event
+
+    // events module
+    just.trigger('click', myNode);
+
+### Normalize event object
+
+    // events module
+    var preventDefault = true;
+    var listener = function (e) {
+        e = just.evt(e, preventDefault);
+        // Default is automatically prevented by passing `true` as second
+        // argument. You can also just call `e.preventDefault()` as usual, and
+        // that works on IE8 as well.
+
+        var target = e.target; // works on IE8 as well
+    };
 
 ## That's it?
 
