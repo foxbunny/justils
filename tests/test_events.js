@@ -5,6 +5,9 @@ describe('just.triger', function(){
   beforeEach(function(){
     setFixtures("<button id=\"target\"></button>\n<input id=\"target-input\"></input>");
   });
+  afterEach(function(){
+    just.byId.clearCache();
+  });
   hasTouch = 'ontouchstart' in document.documentElement;
   testTrigger = function(target, eventName){
     var triggered;
@@ -14,7 +17,7 @@ describe('just.triger', function(){
       return triggered = true;
     };
     runs(function(){
-      return just.trigger(eventName, target, null);
+      return just.trigger(eventName, target);
     });
     waitsFor(function(){
       return triggered;
@@ -46,4 +49,258 @@ describe('just.triger', function(){
       }
     }
   }
+  x$('should pass extra data', function(){
+    var target, triggered, extras;
+    target = just.byId('target');
+    triggered = false;
+    extras = null;
+    target.onclick = function(e){
+      triggered = true;
+      return extras = e.extras;
+    };
+    runs(function(){
+      return just.trigger('click', target, {
+        extras: 'foobar'
+      });
+    });
+    waitsFor(function(){
+      return triggered !== false;
+    }, "click event to be triggered", 200);
+    runs(function(){
+      return expect(extras).toBe('foobar');
+    });
+  });
+  x$('should be curried', function(){
+    var target, fireClick, triggered;
+    target = just.byId('target');
+    fireClick = just.trigger('click');
+    triggered = false;
+    target.onclick = function(e){
+      return triggered = true;
+    };
+    runs(function(){
+      return fireClick(target);
+    });
+    waitsFor(function(){
+      return triggered !== false;
+    }, "click event to be triggered", 200);
+    runs(function(){
+      return expect(triggered).toBe(true);
+    });
+  });
+});
+describe('just.addListener', function(){
+  var x$;
+  x$ = it;
+  beforeEach(function(){
+    setFixtures("<button id=\"target\"></button");
+  });
+  afterEach(function(){
+    just.byId.clearCache();
+  });
+  x$('should add an event listener', function(){
+    var target, triggered;
+    target = just.byId('target');
+    triggered = false;
+    just.addListener('click', target, function(){
+      return triggered = true;
+    });
+    runs(function(){
+      return just.trigger('click', target);
+    });
+    waitsFor(function(){
+      return triggered !== false;
+    }, 'click event to be triggered', 200);
+    runs(function(){
+      return expect(triggered).toBe(true);
+    });
+  });
+  x$('should be curried', function(){
+    var target, triggered, onClick;
+    target = just.byId('target');
+    triggered = false;
+    onClick = just.addListener('click');
+    onClick(target, function(){
+      return triggered = true;
+    });
+    runs(function(){
+      return just.trigger('click', target);
+    });
+    waitsFor(function(){
+      return triggered !== false;
+    }, 'click event to be triggered', 200);
+    runs(function(){
+      return expect(triggered).toBe(true);
+    });
+  });
+  x$('should attach more than one listener to same target', function(){
+    var target, triggered1, triggered2, onTargetClick;
+    target = just.byId('target');
+    triggered1 = false;
+    triggered2 = false;
+    onTargetClick = just.addListener('click', target);
+    onTargetClick(function(){
+      return triggered1 = true;
+    });
+    onTargetClick(function(){
+      return triggered2 = true;
+    });
+    runs(function(){
+      return just.trigger('click', target);
+    });
+    waitsFor(function(){
+      return triggered1 !== false && triggered2 !== false;
+    }, 'click event to be triggered', 200);
+    runs(function(){
+      expect(triggered1).toBe(true);
+      return expect(triggered2).toBe(true);
+    });
+  });
+});
+describe('just.removeListener', function(){
+  var x$;
+  x$ = it;
+  beforeEach(function(){
+    setFixtures("<button id=\"target\"></button");
+  });
+  afterEach(function(){
+    just.byId.clearCache();
+  });
+  x$('should remove previously attached listeners', function(){
+    var target, triggered, controlTriggered, onTargetClick, fn;
+    target = just.byId('target');
+    triggered = false;
+    controlTriggered = false;
+    onTargetClick = just.addListener('click', target);
+    fn = function(){
+      return triggered = true;
+    };
+    onTargetClick(fn);
+    just.removeListener('click', target, fn);
+    onTargetClick(function(){
+      return controlTriggered = true;
+    });
+    runs(function(){
+      return just.trigger('click', target);
+    });
+    waitsFor(function(){
+      return controlTriggered !== false;
+    }, 'control handler to be triggered', 200);
+    runs(function(){
+      expect(controlTriggered).toBe(true);
+      return expect(triggered).toBe(false);
+    });
+  });
+  x$('should be curried', function(){
+    var target, triggered, controlTriggered, onTargetClick, removeTargetClick, fn;
+    target = just.byId('target');
+    triggered = false;
+    controlTriggered = false;
+    onTargetClick = just.addListener('click', target);
+    removeTargetClick = just.removeListener('click', target);
+    fn = function(){
+      return triggered = true;
+    };
+    onTargetClick(fn);
+    removeTargetClick(fn);
+    onTargetClick(function(){
+      return controlTriggered = true;
+    });
+    runs(function(){
+      return just.trigger('click', target);
+    });
+    waitsFor(function(){
+      return controlTriggered !== false;
+    }, 'control handler to be triggered', 200);
+    runs(function(){
+      expect(controlTriggered).toBe(true);
+      return expect(triggered).toBe(false);
+    });
+  });
+});
+describe('just.evt', function(){
+  var x$;
+  x$ = it;
+  x$('should leave irrelevant properties intact', function(){
+    var e;
+    e = just.evt({
+      foo: 'bar'
+    });
+    expect(e.foo).toBe('bar');
+  });
+  x$('should add missing event target', function(){
+    var e;
+    e = {
+      srcElement: 'foo'
+    };
+    e = just.evt(e);
+    expect(e.target).toBe('foo');
+  });
+  x$('should add missing `preventDefault` method', function(){
+    var e;
+    e = just.evt({});
+    expect(e.returnValue).not.toBeDefined();
+    e.preventDefault();
+    expect(e.returnValue).toBe(false);
+  });
+  x$('should add missing `stopPropagation` method', function(){
+    var e;
+    e = just.evt({});
+    expect(e.cancelBubble).not.toBeDefined();
+    e.stopPropagation();
+    expect(e.cancelBubble).toBe(true);
+  });
+  x$('should add missing `which` property', function(){
+    var e;
+    e = just.evt({
+      keyCode: 12
+    });
+    expect(e.which).toBe(12);
+  });
+  x$('should add missing `key-code` property', function(){
+    var e;
+    e = just.evt({
+      which: 27
+    });
+    expect(e.keyCode).toBe(27);
+  });
+  x$('should add `key-char` property', function(){
+    var e;
+    e = just.evt({
+      which: 65
+    });
+    expect(e.keyChar).toBe('A');
+  });
+  x$('should call `preventDefault` if second argument is `true`', function(){
+    var called, e;
+    called = false;
+    e = {
+      preventDefault: function(){
+        return called = true;
+      }
+    };
+    e = just.evt(e, true);
+    expect(called).toBe(true);
+  });
+  x$('should call `preventDefault` even if it is not defined initially', function(){
+    var e;
+    e = just.evt({}, true);
+    expect(e.returnValue).toBe(false);
+  });
+  x$('should call `stopPropagation` if third argument is `true`', function(){
+    var called, e;
+    called = false;
+    e = {
+      stopPropagation: function(){
+        return called = true;
+      }
+    };
+    e = just.evt(e, false, true);
+    expect(called).toBe(true);
+  });
+  x$('should call `stopPropagation` even if it is not defined initially', function(){
+    var e;
+    e = just.evt({}, false, true);
+    expect(e.cancelBubble).toBe(true);
+  });
 });
