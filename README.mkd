@@ -14,9 +14,10 @@ Justils have the following features:
 
 ### Curried functions
 
-Most functions are curried. This means you can quickly whip up new functions
-that have some of the arguments rememebered and use them as your custom
-library. For example:
+Most functions are [curried](http://en.wikipedia.org/wiki/Currying). This means
+you can quickly whip up new functions that have some of the arguments
+rememebered (a.k.a. 'partial application of arguments')and use them as your
+custom library. For example:
 
     var getSelected = just.byClass('selected');
     getSelected(myDOMNode); // Gets all .selected elements under myDOMNode
@@ -126,11 +127,53 @@ you assign it to when using AMD loaders).
     just.setAttr('title', 'awesome', myNode);
     just.hasAttr('title', myNode); // == true
 
+### Attach event listener
+
+    // events module
+    var click = just.addListener('click');
+    var listener = function () { console.log('clicked an element'); };
+    click(myNode, listener);
+
+### Remove event listener
+
+    // events module
+    just.removeListener('click', myNode, listener);
+
+### Trigger an event
+
+    // events module
+    just.trigger('click', myNode);
+
+### Normalize event object
+
+    // events module
+    var preventDefault = true;
+    var listener = function (e) {
+        e = just.evt(e, preventDefault);
+        // Default is automatically prevented by passing `true` as second
+        // argument. You can also just call `e.preventDefault()` as usual, and
+        // that works on IE8 as well.
+
+        var target = e.target; // works on IE8 as well
+    };
 
 ## That's it?
 
-Yes, more or less. Events are being worked on currently, and a new module will
-be added soonish.
+Yes, more or less. There are a few little things left out for brevity's sake.
+Full API documentation in narrative form is being planned for future releases,
+so bear with me and read the code. 
+
+There are two major reasons why there aren't many utiltiy functions. First,
+Justils support currying, so it's really easy to create new utility functions
+without having to 'program' anything. Also, because Justils only contain things
+that its author and contributors actually needed more than just once, not
+everything some theretical user could possibly need. So even if something is a
+really neat idea, there's a good chance it won't make it into Justils
+(someone's gotta maintain it, right?).
+
+And if you _do_ need something, and think it'd be worth our time and energy and
+increased size of the lbirary, let me know by [filing a feature
+request](https://bitbucket.org/brankovukelic/justils/issues/new). ;)
 
 ## Roadmap
 
