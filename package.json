@@ -27,9 +27,11 @@
       "README.mkd",
       "LICENSE",
       "volofile",
+      "vendor",
+      "tests",
       "conf",
       "src"
     ]
   },
-  "version" : "0.11"
+  "version" : "0.12"
 }
