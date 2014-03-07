@@ -1,0 +1,35 @@
+{
+  "name" : "justils",
+  "description" : "Justils are just some utils for working with DOM, DOM events, and related API.",
+  "homepage" : "https://bitbucket.org/brankovukelic/justils",
+  "keywords" : ["browser", "dom", "events", "css", "html"],
+  "author" : "Branko Vukelic <branko@brankovukelic.com>",
+  "bugs": {
+    "url": "https://bitbucket.org/brankovukelic/justils/issues",
+    "email": "branko@brankovukelic.com"
+  },
+  "license": {
+    "type": "MIT",
+    "url": "https://bitbucket.org/brankovukelic/justils/raw/HEAD/LICENSE"
+  },
+  "devDependencies": {
+    "volo": "*",
+    "LiveScript": "1.2.0",
+    "testem": "0.6.8"
+  },
+  "main": "main.js",
+  "volo": {
+    "ignore": [
+      "node_modules",
+      "package.json",
+      ".gitignore",
+      "CHANGES.mkd",
+      "README.mkd",
+      "LICENSE",
+      "volofile",
+      "conf",
+      "src"
+    ]
+  },
+  "version" : "0.1"
+}
