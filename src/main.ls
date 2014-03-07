@@ -8,20 +8,20 @@ define = ((root) ->
 ) this
 
 define (require) ->
-  require! './helpers'
-  require! './traverse'
-  require! './manipulate'
-  require! './events'
-  require! './filter'
+  require! './lib/helpers'
+  require! './lib/traverse'
+  require! './lib/manipulate'
+  require! './lib/events'
+  require! './lib/filter'
 
   # This object will hold the main package
-  justils = {}
+  just = {}
 
   # Import all package modules
-  justils <<< helpers
-  justils <<< traverse
-  justils <<< manipulate
-  justils <<< events
-  justils <<< filter
+  just <<< helpers
+  just <<< traverse
+  just <<< manipulate
+  just <<< events
+  just <<< filter
 
-  justils
+  just

@@ -8,19 +8,19 @@ define = function(root){
   }
 }(this);
 define(function(require){
-  var helpers, traverse, manipulate, events, filter, justils;
-  helpers = require('./helpers');
-  traverse = require('./traverse');
-  manipulate = require('./manipulate');
-  events = require('./events');
-  filter = require('./filter');
-  justils = {};
-  import$(justils, helpers);
-  import$(justils, traverse);
-  import$(justils, manipulate);
-  import$(justils, events);
-  import$(justils, filter);
-  return justils;
+  var helpers, traverse, manipulate, events, filter, just;
+  helpers = require('./lib/helpers');
+  traverse = require('./lib/traverse');
+  manipulate = require('./lib/manipulate');
+  events = require('./lib/events');
+  filter = require('./lib/filter');
+  just = {};
+  import$(just, helpers);
+  import$(just, traverse);
+  import$(just, manipulate);
+  import$(just, events);
+  import$(just, filter);
+  return just;
 });
 function import$(obj, src){
   var own = {}.hasOwnProperty;
