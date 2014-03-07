@@ -177,11 +177,6 @@ request](https://bitbucket.org/brankovukelic/justils/issues/new). ;)
 
 ## Roadmap
 
- + **0.0.1** First official release with complete set of features planned for
-   1.0 (including event handling)
- + **0.0.2** Detailed docs and tutorial.
- + **0.1** Stabilize all function signatures (requests for changing the
-   function signatures welcome until then)
  + **1.0** Stable release with complete API freeze
 
 ## Running unit tests
